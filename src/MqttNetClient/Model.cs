@@ -5,7 +5,7 @@
 //
 // https://github.com/dotnet/MQTTnet
 //---------------------------------------------------------------------------------
-using System;
+using MQTTnet.Protocol;
 
 namespace devMobile.IoT.AzureEventGrid.MqttNetClient.Model
 {
@@ -21,7 +21,10 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient.Model
       public bool CleanStart { get; set; }
 
       public string PublishTopic { get; set; }
+      public MqttQualityOfServiceLevel PublishQualityOfService { get; set; }
+
       public string SubscribeTopics { get; set; }
+      public MqttQualityOfServiceLevel SubscribeQualityOfService { get; set; }
 
       public string UserName { get; set; }
       public string Password { get; set; }

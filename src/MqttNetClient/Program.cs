@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Protocol;
+using MQTTnet.Server;
 
 
 namespace devMobile.IoT.AzureEventGrid.MqttNetClient
@@ -44,7 +44,7 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient
                      .WithClientId(_applicationSettings.ClientId)
                      .WithTcpServer(_applicationSettings.Host, _applicationSettings.Port)
                      .WithCredentials(_applicationSettings.UserName, _applicationSettings.Password)
-                     .WithCleanSession(_applicationSettings.CleanStart)
+                     .WithCleanStart(_applicationSettings.CleanStart)
                      .WithTlsOptions(new MqttClientTlsOptions() { UseTls = true })
                      .Build();
 
@@ -56,20 +56,20 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient
 
                _client.ApplicationMessageReceivedAsync += OnApplicationMessageReceivedAsync;
 
+               Console.WriteLine($"Subscribed to Topic");
                foreach (string topic in _applicationSettings.SubscribeTopics.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
                {
-                  Console.WriteLine($" Subscribing to {topic}");
+                  var subscribeResult = await _client.SubscribeAsync(topic, _applicationSettings.SubscribeQualityOfService);
 
-                  var subscribeResult = await _client.SubscribeAsync(topic, MqttQualityOfServiceLevel.AtLeastOnce);
-
-                  Console.WriteLine($" Subscribed to:{topic} Result:{subscribeResult.Items.First().ResultCode}");
+                  Console.WriteLine($" {topic} Result:{subscribeResult.Items.First().ResultCode}");
                }
 
-               Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} Due:{_applicationSettings.PublicationTimerDue} Period:{_applicationSettings.PublicationTimerPeriod}");
+               Console.WriteLine($"Timer Due:{_applicationSettings.PublicationTimerDue} Period:{_applicationSettings.PublicationTimerPeriod}");
 
                Timer imageUpdatetimer = new(PublisherTimerCallback, null, _applicationSettings.PublicationTimerDue, _applicationSettings.PublicationTimerPeriod);
 
                Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} press <ctrl^c> to exit");
+               Console.WriteLine();
 
                try
                {
@@ -108,16 +108,16 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient
             var message = new MqttApplicationMessageBuilder()
                   .WithTopic(_applicationSettings.PublishTopic)
                   .WithPayload(payload)
-                  .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
+                  .WithQualityOfServiceLevel(_applicationSettings.PublishQualityOfService)
                .Build();
 
-            Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MQTTnet.Publish start");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MQTTnet.Publish start");
 
             var resultPublish = await _client.PublishAsync(message);
 
-            Console.WriteLine($"  Published message to topic:{_applicationSettings.PublishTopic} Reason:{resultPublish.ReasonCode}");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MqttNet.Publish finish");
 
-            Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MqttNet.Publish finish");
+            Console.WriteLine($" Published message to Topic:{_applicationSettings.PublishTopic} Reason:{resultPublish.ReasonCode}");
          }
          catch (Exception ex)
          {
@@ -131,9 +131,9 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient
 
       private static Task OnApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs e)
       {
-         Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MQTTnet.receive start");
-         Console.WriteLine($"  topic={e.ApplicationMessage.Topic} Payload:{e.ApplicationMessage.ConvertPayloadToString()}");
-         Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MQTTnet.receive finish");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MQTTnet.receive start");
+         Console.WriteLine($" Topic:{e.ApplicationMessage.Topic} QoS:{e.ApplicationMessage.QualityOfServiceLevel} Payload:{e.ApplicationMessage.ConvertPayloadToString()}");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MQTTnet.receive finish");
 
          return Task.CompletedTask;
       }
