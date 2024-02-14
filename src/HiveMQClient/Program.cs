@@ -5,13 +5,13 @@
 //
 // https://github.com/hivemq/hivemq-mqtt-client-dotnet 
 //---------------------------------------------------------------------------------
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 
 using Microsoft.Extensions.Configuration;
 
 using HiveMQtt.Client;
-using HiveMQtt.Client.Options;
 using HiveMQtt.MQTT5.ReasonCodes;
 using HiveMQtt.MQTT5.Types;
 
@@ -38,18 +38,29 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
 
             _applicationSettings = configuration.GetSection("ApplicationSettings").Get<Model.ApplicationSettings>();
 
-            var options = new HiveMQClientOptions
-            {
-               ClientId = _applicationSettings.ClientId,
-               Host = _applicationSettings.Host,
-               Port = _applicationSettings.Port,
-               UserName = _applicationSettings.UserName,
-               Password = _applicationSettings.Password,
-               CleanStart = _applicationSettings.CleanStart,
-               UseTLS = true,
-            };
+            var optionsBuilder = new HiveMQClientOptionsBuilder();
 
-            using (_client = new HiveMQClient(options))
+            optionsBuilder
+               .WithClientId(_applicationSettings.ClientId)
+               .WithBroker(_applicationSettings.Host)
+               .WithPort(_applicationSettings.Port)
+               .WithUserName(_applicationSettings.UserName)
+               .WithCleanStart(_applicationSettings.CleanStart)
+               .WithUseTls(true);
+
+            if (!string.IsNullOrWhiteSpace(_applicationSettings.ClientCertificateFileName))
+            {
+               var clientCertificate = new X509Certificate2(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword);
+
+               optionsBuilder = optionsBuilder.WithClientCertificate(clientCertificate);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_applicationSettings.Password))
+            {
+               optionsBuilder = optionsBuilder.WithPassword(_applicationSettings.Password);
+            }
+
+            using (_client = new HiveMQClient(optionsBuilder.Build()))
             {
                _client.OnMessageReceived += OnMessageReceived;
 
@@ -64,7 +75,7 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
                {
                   var subscribeResult = await _client.SubscribeAsync(topic, _applicationSettings.SubscribeQualityOfService);
 
-                  Console.WriteLine($" {topic} Result:{subscribeResult.Subscriptions[0].SubscribeReasonCode}");
+                  Console.WriteLine($" Topic:{topic} Result:{subscribeResult.Subscriptions[0].SubscribeReasonCode}");
                }
 
                Console.WriteLine($"Timer Due:{_applicationSettings.PublicationTimerDue} Period:{_applicationSettings.PublicationTimerPeriod}");
