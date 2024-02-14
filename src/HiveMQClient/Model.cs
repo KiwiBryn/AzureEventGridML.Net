@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 //---------------------------------------------------------------------------------
-using System;
+using HiveMQtt.MQTT5.Types;
 
 namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication.Model
 {
@@ -29,9 +29,15 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication.Model
 		public bool CleanStart { get; set; }
 
       public string PublishTopic { get; set; }
+      public QualityOfService PublishQualityOfService { get; set; }
+
       public string SubscribeTopics { get; set; }
+      public QualityOfService SubscribeQualityOfService { get; set; }
 
       public string UserName { get; set; }
       public string Password { get; set; }
+
+      public string ClientCertificateFileName { get; set; }
+      public string ClientCertificatePassword { get; set; }
    }
 }

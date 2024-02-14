@@ -5,14 +5,13 @@
 //
 // https://github.com/hivemq/hivemq-mqtt-client-dotnet 
 //---------------------------------------------------------------------------------
-using HiveMQtt.Client;
-
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 
 using Microsoft.Extensions.Configuration;
 
-using HiveMQtt.Client.Options;
+using HiveMQtt.Client;
 using HiveMQtt.MQTT5.ReasonCodes;
 using HiveMQtt.MQTT5.Types;
 
@@ -39,18 +38,29 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
 
             _applicationSettings = configuration.GetSection("ApplicationSettings").Get<Model.ApplicationSettings>();
 
-            var options = new HiveMQClientOptions
-            {
-               ClientId = _applicationSettings.ClientId,
-               Host = _applicationSettings.Host,
-               Port = _applicationSettings.Port,
-               UserName = _applicationSettings.UserName,
-               Password = _applicationSettings.Password,
-               CleanStart = _applicationSettings.CleanStart,
-               UseTLS = true,
-            };
+            var optionsBuilder = new HiveMQClientOptionsBuilder();
 
-            using (_client = new HiveMQClient(options))
+            optionsBuilder
+               .WithClientId(_applicationSettings.ClientId)
+               .WithBroker(_applicationSettings.Host)
+               .WithPort(_applicationSettings.Port)
+               .WithUserName(_applicationSettings.UserName)
+               .WithCleanStart(_applicationSettings.CleanStart)
+               .WithUseTls(true);
+
+            if (!string.IsNullOrWhiteSpace(_applicationSettings.ClientCertificateFileName))
+            {
+               var clientCertificate = new X509Certificate2(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword);
+
+               optionsBuilder = optionsBuilder.WithClientCertificate(clientCertificate);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_applicationSettings.Password))
+            {
+               optionsBuilder = optionsBuilder.WithPassword(_applicationSettings.Password);
+            }
+
+            using (_client = new HiveMQClient(optionsBuilder.Build()))
             {
                _client.OnMessageReceived += OnMessageReceived;
 
@@ -60,16 +70,15 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
                   throw new Exception($"Failed to connect: {connectResult.ReasonString}");
                }
 
+               Console.WriteLine($"Subscribed to Topic");
                foreach (string topic in _applicationSettings.SubscribeTopics.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
                {
-                  Console.WriteLine($" Subscribing to {topic}");
+                  var subscribeResult = await _client.SubscribeAsync(topic, _applicationSettings.SubscribeQualityOfService);
 
-                  var subscribeResult = await _client.SubscribeAsync(topic, QualityOfService.ExactlyOnceDelivery);
-
-                  Console.WriteLine($" Subscribed to {topic}: {subscribeResult.Subscriptions[0].SubscribeReasonCode}");
+                  Console.WriteLine($" Topic:{topic} Result:{subscribeResult.Subscriptions[0].SubscribeReasonCode}");
                }
 
-               Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} Due:{_applicationSettings.PublicationTimerDue} Period:{_applicationSettings.PublicationTimerPeriod}");
+               Console.WriteLine($"Timer Due:{_applicationSettings.PublicationTimerDue} Period:{_applicationSettings.PublicationTimerPeriod}");
 
                Timer imageUpdatetimer = new(PublisherTimerCallback, null, _applicationSettings.PublicationTimerDue, _applicationSettings.PublicationTimerPeriod);
 
@@ -113,16 +122,16 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
             {
                Topic = _applicationSettings.PublishTopic,
                Payload = Encoding.ASCII.GetBytes(payload),
-               QoS = QualityOfService.ExactlyOnceDelivery,
+               QoS = _applicationSettings.PublishQualityOfService,
             };
 
-            Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.Publish start");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.Publish start");
 
             var resultPublish = await _client.PublishAsync(message);
 
-            Console.WriteLine($"  Published message to topic:{_applicationSettings.PublishTopic} Reason:{resultPublish.ReasonCode}");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.Publish finish");
 
-            Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.Publish finish");
+            Console.WriteLine($" Topic:{_applicationSettings.PublishTopic} Reason:{resultPublish.QoS1ReasonCode}{resultPublish.QoS2ReasonCode}");
          }
          catch (Exception ex)
          {
@@ -136,9 +145,9 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
 
       private static void OnMessageReceived(object? sender, HiveMQtt.Client.Events.OnMessageReceivedEventArgs e)
       {
-         Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.receive start");
-         Console.WriteLine($"  topic={e.PublishMessage.Topic} Payload:{e.PublishMessage.PayloadAsString}");
-         Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.receive finish");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.receive start");
+         Console.WriteLine($" Topic:{e.PublishMessage.Topic} QoS:{e.PublishMessage.QoS} Payload:{e.PublishMessage.PayloadAsString}");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.receive finish");
       }
    }
 }
