@@ -50,9 +50,7 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
 
             if (!string.IsNullOrWhiteSpace(_applicationSettings.ClientCertificateFileName))
             {
-               var clientCertificate = new X509Certificate2(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword);
-
-               optionsBuilder = optionsBuilder.WithClientCertificate(clientCertificate);
+               optionsBuilder.WithClientCertificate(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword);
             }
 
             if (!string.IsNullOrWhiteSpace(_applicationSettings.Password))
@@ -100,6 +98,9 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
          {
             Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} Application startup failure {ex.Message}", ex);
          }
+
+         Console.WriteLine("Press Enter to exit");
+         Console.ReadLine();
       }
 
       private static async void PublisherTimerCallback(object? state)
@@ -120,7 +121,7 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
 
             var message = new MQTT5PublishMessage
             {
-               Topic = _applicationSettings.PublishTopic,
+               Topic = string.Format(_applicationSettings.PublishTopic, _applicationSettings.UserName),
                Payload = Encoding.ASCII.GetBytes(payload),
                QoS = _applicationSettings.PublishQualityOfService,
             };
@@ -131,7 +132,7 @@ namespace devMobile.IoT.AzureEventGrid.HiveMQClientApplication
 
             Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.Publish finish");
 
-            Console.WriteLine($" Topic:{_applicationSettings.PublishTopic} Reason:{resultPublish.QoS1ReasonCode}{resultPublish.QoS2ReasonCode}");
+            Console.WriteLine($" Topic:{message.Topic} Reason:{resultPublish.QoS1ReasonCode}{resultPublish.QoS2ReasonCode}");
          }
          catch (Exception ex)
          {
