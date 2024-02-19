@@ -15,7 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8ImageClient", "YoloV8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8VideoClient", "YoloV8VideoClient\YoloV8VideoClient.csproj", "{4DBA6A05-8A4B-4C99-986B-A2E43DA8D1AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureEventGridHiveMQClient", "AzureEventGridHiveMQClient\AzureEventGridHiveMQClient.csproj", "{68F203F8-28CB-4EF4-A625-082D298BB363}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureEventGridHiveMQClient", "AzureEventGridHiveMQClient\AzureEventGridHiveMQClient.csproj", "{68F203F8-28CB-4EF4-A625-082D298BB363}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RootCertificate", "RootCertificate\RootCertificate.csproj", "{85B9D28A-5154-4029-AE4A-087E37C0F52D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntermediateCertificate", "IntermediateCertificate\IntermediateCertificate.csproj", "{B8EA2177-EFDD-443E-80E3-137F8E161ECD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceCertificate", "DeviceCertificate\DeviceCertificate.csproj", "{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Certificates", "Certificates", "{27D11853-C809-4B04-AB24-44FD6FC15DBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,9 +59,26 @@ Global
 		{68F203F8-28CB-4EF4-A625-082D298BB363}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68F203F8-28CB-4EF4-A625-082D298BB363}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68F203F8-28CB-4EF4-A625-082D298BB363}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85B9D28A-5154-4029-AE4A-087E37C0F52D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85B9D28A-5154-4029-AE4A-087E37C0F52D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85B9D28A-5154-4029-AE4A-087E37C0F52D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85B9D28A-5154-4029-AE4A-087E37C0F52D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8EA2177-EFDD-443E-80E3-137F8E161ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8EA2177-EFDD-443E-80E3-137F8E161ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8EA2177-EFDD-443E-80E3-137F8E161ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8EA2177-EFDD-443E-80E3-137F8E161ECD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{85B9D28A-5154-4029-AE4A-087E37C0F52D} = {27D11853-C809-4B04-AB24-44FD6FC15DBA}
+		{B8EA2177-EFDD-443E-80E3-137F8E161ECD} = {27D11853-C809-4B04-AB24-44FD6FC15DBA}
+		{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC} = {27D11853-C809-4B04-AB24-44FD6FC15DBA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9EEAA5AC-6C6F-48C6-8FCE-AC7E5D693536}
