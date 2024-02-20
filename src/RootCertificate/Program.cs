@@ -68,7 +68,7 @@ namespace devMobile.IoT.AzureEventGrid.RootCertificate
             return;
          }
 
-         Console.WriteLine($"validFrom:{validFrom} be after ValidTo:{validTo}");
+         Console.WriteLine($"validFrom:{validFrom} ValidTo:{validTo}");
 
          var createClientServerAuthCerts = serviceProvider.GetService<CreateCertificatesClientServerAuth>();
 
@@ -94,7 +94,7 @@ namespace devMobile.IoT.AzureEventGrid.RootCertificate
          string password = Console.ReadLine();
          if ( String.IsNullOrEmpty(password))
          {
-            Console.WriteLine("Fail");
+            Console.WriteLine("PFX Password invalid");
             return;
          }
 
