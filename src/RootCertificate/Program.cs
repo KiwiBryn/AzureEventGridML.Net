@@ -3,6 +3,10 @@
 //
 // http://www.apache.org/licenses/LICENSE-2.0
 //
+// Inspired by https://github.com/damienbod/AspNetCoreCertificates
+//
+// Thankyou Damien Bod https://damienbod.com/ your blog posts and github were incredibly helpful
+//
 //---------------------------------------------------------------------------------
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
