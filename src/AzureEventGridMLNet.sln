@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntermediateCertificate", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceCertificate", "DeviceCertificate\DeviceCertificate.csproj", "{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Certificates", "Certificates", "{27D11853-C809-4B04-AB24-44FD6FC15DBA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CertificateGeneration", "CertificateGeneration", "{27D11853-C809-4B04-AB24-44FD6FC15DBA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MQTTClients", "MQTTClients", "{91054537-7A40-4757-9A3E-9C978937FAC4}"
 EndProject
