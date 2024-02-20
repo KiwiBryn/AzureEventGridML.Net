@@ -103,7 +103,7 @@ namespace devMobile.IoT.AzureEventGrid.IntermediateCertificate
             },
                 _applicationSettings.PathLengthConstraint,
                 _applicationSettings.DnsName, root);
-         root.FriendlyName = _applicationSettings.FriendlyName;
+         intermediate.FriendlyName = _applicationSettings.FriendlyName;
 
 
          Console.Write("Intermediate certificate Password:");
