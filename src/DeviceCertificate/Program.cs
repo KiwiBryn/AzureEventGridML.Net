@@ -96,7 +96,7 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate
          var device = createClientServerAuthCerts.NewDeviceChainedCertificate(
              new DistinguishedName
              {
-                CommonName = _applicationSettings.CommonName,
+                CommonName = deviceId,
                 Organisation = _applicationSettings.Organisation,
                 OrganisationUnit = _applicationSettings.OrganisationUnit,
                 Locality = _applicationSettings.Locality,
@@ -113,7 +113,7 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate
 
          Console.Write("Device PFX Password:");
          string devicePassword = Console.ReadLine();
-         if (String.IsNullOrEmpty(intermediatePassword))
+         if (String.IsNullOrEmpty(devicePassword))
          {
             Console.WriteLine("Fail");
             return;
@@ -138,8 +138,6 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate.Model
 {
    internal class ApplicationSettings
    {
-      public string CommonName { get; set; }
-
       public string Organisation { get; set; }
 
       public string OrganisationUnit { get; set; }
