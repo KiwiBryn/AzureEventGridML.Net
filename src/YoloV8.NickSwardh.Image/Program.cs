@@ -1,4 +1,4 @@
-﻿namespace SecurityCameraVideo
+﻿namespace YoloV8.NickSwardh.Image
 {
    internal class Program
    {
