@@ -363,5 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /src/IntermediateCertificate/EventGridIntermediate.cer
 /src/SecurityCameraImage/ImageCamera.jpg
-/src/YoloV8.dem-compunetImage/ImageCamera.jpg
-/src/YoloV8.dem-compunetImage/ImageOutput.jpg
+/src/YoloV8.dem-compunet.Image.Detect/ImageCamera.jpg
+/src/YoloV8.dem-compunet.Image.Detect/ImageOutput.jpg
