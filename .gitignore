@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /src/YoloV8.dem-compunet.Image.Detect/ImageCamera.jpg
 /src/YoloV8.dem-compunet.Image.Detect/ImageOutput.jpg
 /src/EventGridObjectDetectionImage/Model/yolov8s.onnx
+/src/EventGridObjectDetectionImage/ImageCamera.jpg
