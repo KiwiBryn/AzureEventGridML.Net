@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.AzureEventGrid.YoloV8.dem_compunet.Image.Model
+namespace devMobile.IoT.AzureEventGrid.YoloV8.dem_compunet.Image.Detect.Model
 {
 	public class ApplicationSettings
 	{

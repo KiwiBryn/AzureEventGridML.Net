@@ -14,7 +14,7 @@ using Compunet.YoloV8.Plotting;
 using SixLabors.ImageSharp;
 
 
-namespace devMobile.IoT.AzureEventGrid.YoloV8.dem_compunet.Image
+namespace devMobile.IoT.AzureEventGrid.YoloV8.dem_compunet.Image.Detect
 {
    internal class Program
    {
