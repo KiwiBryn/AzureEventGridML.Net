@@ -6,14 +6,28 @@
 //---------------------------------------------------------------------------------
 namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
 {
-	using System;
+   using System;
 
-	public class ApplicationSettings
+   using HiveMQtt.MQTT5.Types;
+
+   public class ApplicationSettings
 	{
 		public string DeviceId { get; set; }
 
 		public TimeSpan ImageTimerDue { get; set; }
 		public TimeSpan ImageTimerPeriod { get; set; }
+
+      public string UserName { get; set; }
+      public int Port { get; set; }
+      public string Host { get; set; }
+      public string ClientId { get; set; }
+      public bool CleanStart { get; set; }
+      public string ClientCertificateFileName { get; set; }
+      public string ClientCertificatePassword { get; set; }
+
+      public string PublishTopic { get; set; }
+
+      public QualityOfService PublishQualityOfService { get; set; }
 
       public string CameraUrl { get; set; }
       public string CameraUserName { get; set; }
