@@ -50,6 +50,8 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
 
          try
          {
+            _httpClient = new HttpClient(new HttpClientHandler { PreAuthenticate = true, Credentials = new NetworkCredential(_applicationSettings.CameraUserName, _applicationSettings.CameraUserPassword)});
+
             optionsBuilder
                .WithClientId(_applicationSettings.ClientId)
                .WithBroker(_applicationSettings.Host)
@@ -58,8 +60,6 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
                .WithCleanStart(_applicationSettings.CleanStart)
                .WithClientCertificate(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword)
                .WithUseTls(true);
-
-            NetworkCredential networkCredential = new NetworkCredential(_applicationSettings.CameraUserName, _applicationSettings.CameraUserPassword);
 
             using (_Mqttclient = new HiveMQClient(optionsBuilder.Build()))
             using (_predictor = new YoloV8(_applicationSettings.ModelPath))
@@ -94,7 +94,7 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
          _logger.LogInformation("Azure IoT Smart Edge Camera Service shutdown");
       }
 
-      private async void ImageUpdateTimerCallback(object state)
+      private async void ImageUpdateTimerCallback(object? state)
       {
          DateTime requestAtUtc = DateTime.UtcNow;
 
