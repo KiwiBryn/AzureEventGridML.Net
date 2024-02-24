@@ -4,7 +4,6 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-using Microsoft.Extensions.DependencyInjection;
 namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
 {
    using System;
@@ -34,7 +33,6 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
       private HttpClient _httpClient;
       private HiveMQClient _Mqttclient;
       private bool _ImageProcessing = false;
-      private Timer _imageUpdatetimer;
       private YoloV8 _predictor;
 
       public Worker(ILogger<Worker> logger, IOptions<ApplicationSettings> applicationSettings)
@@ -63,8 +61,6 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
 
             NetworkCredential networkCredential = new NetworkCredential(_applicationSettings.CameraUserName, _applicationSettings.CameraUserPassword);
 
-            _httpClient = new HttpClient(new HttpClientHandler { PreAuthenticate = true, Credentials = networkCredential });
-
             using (_Mqttclient = new HiveMQClient(optionsBuilder.Build()))
             using (_predictor = new YoloV8(_applicationSettings.ModelPath))
             {
@@ -76,9 +72,9 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
                   throw new Exception($"Failed to connect: {connectResult.ReasonString}");
                }
 
-               _logger.LogInformation($"Timer Due:{_applicationSettings.ImageTimerDue} Period:{_applicationSettings.ImageTimerPeriod}", _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
+               _logger.LogInformation("Timer Due:{_applicationSettings.ImageTimerDue} Period:{_applicationSettings.ImageTimerPeriod}", _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
 
-               _imageUpdatetimer = new Timer(ImageUpdateTimerCallback, null, _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
+               new Timer(ImageUpdateTimerCallback, null, _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
 
                try
                {
