@@ -29,6 +29,9 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient.Model
       public string UserName { get; set; }
       public string Password { get; set; }
 
+      public string ClientCertificateFileName { get; set; }
+      public string ClientCertificatePassword { get; set;}
+
    }
 }
 
