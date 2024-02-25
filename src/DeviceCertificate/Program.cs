@@ -26,13 +26,13 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate
       static void Main(string[] args)
       {
          var serviceProvider = new ServiceCollection()
-             .AddCertificateManager()
-             .BuildServiceProvider();
+               .AddCertificateManager()
+               .BuildServiceProvider();
 
          // load the app settings into configuration
          var configuration = new ConfigurationBuilder()
-              .AddJsonFile("appsettings.json", false, true)
-              .AddUserSecrets<Program>()
+               .AddJsonFile("appsettings.json", false, true)
+               .AddUserSecrets<Program>()
          .Build();
 
          _applicationSettings = configuration.GetSection("ApplicationSettings").Get<Model.ApplicationSettings>();
@@ -76,7 +76,7 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate
 
          Console.WriteLine($"validFrom:{validFrom} ValidTo:{validTo}");
 
-         Console.WriteLine($"Intermediate PFX file:{_applicationSettings.IntermediatePfxFilePath}");
+         Console.WriteLine($"Intermediate PFX file:{_applicationSettings.IntermediateCertificateFilePath}");
 
          Console.Write("Intermediate PFX Password:");
          string intermediatePassword = Console.ReadLine();
@@ -85,7 +85,7 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate
             Console.WriteLine("Intermediate PFX Password invalid");
             return;
          }
-         var intermediate = new X509Certificate2(_applicationSettings.IntermediatePfxFilePath, intermediatePassword);
+         var intermediate = new X509Certificate2(_applicationSettings.IntermediateCertificateFilePath, intermediatePassword);
 
          Console.Write("Device ID:");
          string deviceId = Console.ReadLine();
@@ -98,15 +98,15 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate
          var createClientServerAuthCerts = serviceProvider.GetService<CreateCertificatesClientServerAuth>();
 
          var device = createClientServerAuthCerts.NewDeviceChainedCertificate(
-             new DistinguishedName
-             {
-                CommonName = deviceId,
-                Organisation = _applicationSettings.Organisation,
-                OrganisationUnit = _applicationSettings.OrganisationUnit,
-                Locality = _applicationSettings.Locality,
-                StateProvince = _applicationSettings.StateProvince,
-                Country = _applicationSettings.Country
-             },
+               new DistinguishedName
+               {
+                  CommonName = deviceId,
+                  Organisation = _applicationSettings.Organisation,
+                  OrganisationUnit = _applicationSettings.OrganisationUnit,
+                  Locality = _applicationSettings.Locality,
+                  StateProvince = _applicationSettings.StateProvince,
+                  Country = _applicationSettings.Country
+               },
             new ValidityPeriod
             {
                ValidFrom = validFrom,
@@ -125,11 +125,11 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate
 
          var importExportCertificate = serviceProvider.GetService<ImportExportCertificate>();
 
-         string devicePfxPath = string.Format(_applicationSettings.DevicePfxFilePath, deviceId);
+         string devicePfxPath = string.Format(_applicationSettings.DeviceCertificatePfxFilePath, deviceId);
 
          Console.WriteLine($"Device PFX file:{devicePfxPath}");
-         var devicePfxBytes = importExportCertificate.ExportChainedCertificatePfx(devicePassword, device, intermediate);
-         File.WriteAllBytes(devicePfxPath,  devicePfxBytes);
+         var deviceCertificatePath = importExportCertificate.ExportChainedCertificatePfx(devicePassword, device, intermediate);
+         File.WriteAllBytes(devicePfxPath,  deviceCertificatePath);
 
          Console.WriteLine("press enter to exit");
          Console.ReadLine();
@@ -158,8 +158,8 @@ namespace devMobile.IoT.AzureEventGrid.DeviceCertificate.Model
 
       public DateTimeOffset? ValidTo { get; set; }
 
-      public string IntermediatePfxFilePath { get; set; }
+      public string IntermediateCertificateFilePath { get; set; }
 
-      public string DevicePfxFilePath { get; set; }
+      public string DeviceCertificatePfxFilePath { get; set; }
    }
 }
