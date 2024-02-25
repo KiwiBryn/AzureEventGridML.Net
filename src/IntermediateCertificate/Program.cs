@@ -8,13 +8,13 @@
 // Thankyou Damien Bod https://damienbod.com/ your blog posts and github were incredibly helpful
 //
 //---------------------------------------------------------------------------------
+using System.Security.Cryptography.X509Certificates;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using CertificateManager;
 using CertificateManager.Models;
-
-using System.Security.Cryptography.X509Certificates;
 
 
 namespace devMobile.IoT.AzureEventGrid.IntermediateCertificate
@@ -26,13 +26,13 @@ namespace devMobile.IoT.AzureEventGrid.IntermediateCertificate
       static void Main(string[] args)
       {
          var serviceProvider = new ServiceCollection()
-             .AddCertificateManager()
-             .BuildServiceProvider();
+               .AddCertificateManager()
+               .BuildServiceProvider();
 
          // load the app settings into configuration
          var configuration = new ConfigurationBuilder()
-              .AddJsonFile("appsettings.json", false, true)
-              .AddUserSecrets<Program>()
+               .AddJsonFile("appsettings.json", false, true)
+               .AddUserSecrets<Program>()
          .Build();
 
          _applicationSettings = configuration.GetSection("ApplicationSettings").Get<Model.ApplicationSettings>();
@@ -76,38 +76,37 @@ namespace devMobile.IoT.AzureEventGrid.IntermediateCertificate
 
          Console.WriteLine($"validFrom:{validFrom} be after ValidTo:{validTo}");
 
-         Console.WriteLine($"Root PFX file:{_applicationSettings.RootPfxFilePath}");
+         Console.WriteLine($"Root Certificate file:{_applicationSettings.RootCertificateFilePath}");
 
-         Console.Write("Root certificate PFX Password:");
+         Console.Write("Root Certificate Password:");
          string rootPassword = Console.ReadLine();
          if (String.IsNullOrEmpty(rootPassword))
          {
             Console.WriteLine("Fail");
             return;
          }
-         var root = new X509Certificate2(_applicationSettings.RootPfxFilePath, rootPassword);
+         var rootCertificate = new X509Certificate2(_applicationSettings.RootCertificateFilePath, rootPassword);
 
+         var intermediateCertificateCreate = serviceProvider.GetService<CreateCertificatesClientServerAuth>();
 
-         var createClientServerAuthCerts = serviceProvider.GetService<CreateCertificatesClientServerAuth>();
-
-         var intermediate = createClientServerAuthCerts.NewIntermediateChainedCertificate(
-             new DistinguishedName
-             {
-                CommonName = _applicationSettings.CommonName,
-                Organisation = _applicationSettings.Organisation,
-                OrganisationUnit = _applicationSettings.OrganisationUnit,
-                Locality = _applicationSettings.Locality,
-                StateProvince = _applicationSettings.StateProvince,
-                Country = _applicationSettings.Country
-             },
+         var intermediateCertificate = intermediateCertificateCreate.NewIntermediateChainedCertificate(
+               new DistinguishedName
+               {
+                  CommonName = _applicationSettings.CommonName,
+                  Organisation = _applicationSettings.Organisation,
+                  OrganisationUnit = _applicationSettings.OrganisationUnit,
+                  Locality = _applicationSettings.Locality,
+                  StateProvince = _applicationSettings.StateProvince,
+                  Country = _applicationSettings.Country
+               },
             new ValidityPeriod
             {
                ValidFrom = validFrom,
                ValidTo = validTo,
             },
-                _applicationSettings.PathLengthConstraint,
-                _applicationSettings.DnsName, root);
-         intermediate.FriendlyName = _applicationSettings.FriendlyName;
+                  _applicationSettings.PathLengthConstraint,
+                  _applicationSettings.DnsName, rootCertificate);
+            intermediateCertificate.FriendlyName = _applicationSettings.FriendlyName;
 
 
          Console.Write("Intermediate certificate Password:");
@@ -120,13 +119,13 @@ namespace devMobile.IoT.AzureEventGrid.IntermediateCertificate
 
          var importExportCertificate = serviceProvider.GetService<ImportExportCertificate>();
 
-         Console.WriteLine($"Intermediate PFX file:{_applicationSettings.IntermediatePfxFilePath}");
-         var intermediateCertInPfxBtyes = importExportCertificate.ExportChainedCertificatePfx(intermediatePassword, intermediate, root);
-         File.WriteAllBytes(_applicationSettings.IntermediatePfxFilePath, intermediateCertInPfxBtyes);
+         Console.WriteLine($"Intermediate PFX file:{_applicationSettings.IntermediateCertificatePfxFilePath}");
+         var intermediateCertificatePfxBtyes = importExportCertificate.ExportChainedCertificatePfx(intermediatePassword, intermediateCertificate, rootCertificate);
+         File.WriteAllBytes(_applicationSettings.IntermediateCertificatePfxFilePath, intermediateCertificatePfxBtyes);
 
-         Console.WriteLine($"Intermediate CER file:{_applicationSettings.IntermediateCerFilePath}");
-         var exportPublicKeyCertificatePem = importExportCertificate.PemExportPublicKeyCertificate(intermediate);
-         File.WriteAllText(_applicationSettings.IntermediateCerFilePath, exportPublicKeyCertificatePem);
+         Console.WriteLine($"Intermediate CER file:{_applicationSettings.IntermediateCertificateCerFilePath}");
+         var intermediateCertificatePemText = importExportCertificate.PemExportPublicKeyCertificate(intermediateCertificate);
+         File.WriteAllText(_applicationSettings.IntermediateCertificateCerFilePath, intermediateCertificatePemText);
 
          Console.WriteLine("press enter to exit");
          Console.ReadLine();
@@ -163,9 +162,9 @@ namespace devMobile.IoT.AzureEventGrid.IntermediateCertificate.Model
 
       public string FriendlyName { get; set; }
 
-      public string RootPfxFilePath { get; set; }
-      public string IntermediatePfxFilePath { get; set; }
-      public string IntermediateCerFilePath { get; set; }
+      public string RootCertificateFilePath { get; set; }
+      public string IntermediateCertificatePfxFilePath { get; set; }
+      public string IntermediateCertificateCerFilePath { get; set; }
    }
 }
 

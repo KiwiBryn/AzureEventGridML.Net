@@ -61,7 +61,7 @@ namespace devMobile.IoT.AzureEventGrid.RootCertificate
 
          if (_applicationSettings.ValidFor is not null)
          {
-            Console.WriteLine("No ValidTo using using ValidFrom + ValidFor");
+            Console.WriteLine("Using ValidFrom + ValidFor");
 
             validTo = validFrom.Add(_applicationSettings.ValidFor.Value);
          }
@@ -74,9 +74,9 @@ namespace devMobile.IoT.AzureEventGrid.RootCertificate
 
          Console.WriteLine($"validFrom:{validFrom} ValidTo:{validTo}");
 
-         var createClientServerAuthCerts = serviceProvider.GetService<CreateCertificatesClientServerAuth>();
+         var serverRootCertificate = serviceProvider.GetService<CreateCertificatesClientServerAuth>();
 
-         var root = createClientServerAuthCerts.NewRootCertificate(
+         var root = serverRootCertificate.NewRootCertificate(
              new DistinguishedName { 
                      CommonName = _applicationSettings.CommonName,
                      Organisation = _applicationSettings.Organisation,
@@ -93,7 +93,6 @@ namespace devMobile.IoT.AzureEventGrid.RootCertificate
              _applicationSettings.DnsName);
          root.FriendlyName = _applicationSettings.FriendlyName;
 
-
          Console.Write("PFX Password:");
          string password = Console.ReadLine();
          if ( String.IsNullOrEmpty(password))
@@ -102,12 +101,12 @@ namespace devMobile.IoT.AzureEventGrid.RootCertificate
             return;
          }
 
-         var importExportCertificate = serviceProvider.GetService<ImportExportCertificate>();
+         var exportCertificate = serviceProvider.GetService<ImportExportCertificate>();
 
-         var rootCertInPfxBtyes = importExportCertificate.ExportRootPfx(password, root);
-         File.WriteAllBytes(_applicationSettings.CertificateFilePath, rootCertInPfxBtyes);
+         var rootCertificatePfxBytes = exportCertificate.ExportRootPfx(password, root);
+         File.WriteAllBytes(_applicationSettings.RootCertificateFilePath, rootCertificatePfxBytes);
 
-         Console.WriteLine($"Root certificate file:{_applicationSettings.CertificateFilePath}");
+         Console.WriteLine($"Root certificate file:{_applicationSettings.RootCertificateFilePath}");
          Console.WriteLine("press enter to exit");
          Console.ReadLine();
       }
@@ -143,6 +142,6 @@ namespace devMobile.IoT.AzureEventGrid.RootCertificate.Model
 
       public string FriendlyName { get; set;}
 
-      public string CertificateFilePath { get; set; }
+      public string RootCertificateFilePath { get; set; }
    }
 }
