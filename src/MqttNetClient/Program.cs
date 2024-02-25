@@ -5,6 +5,7 @@
 //
 // https://github.com/dotnet/MQTTnet
 //---------------------------------------------------------------------------------
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 using Microsoft.Extensions.Configuration;
@@ -40,13 +41,40 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient
 
             using (_client = mqttFactory.CreateMqttClient())
             {
-               var mqttClientOptions = new MqttClientOptionsBuilder()
-                     .WithClientId(_applicationSettings.ClientId)
-                     .WithTcpServer(_applicationSettings.Host, _applicationSettings.Port)
-                     .WithCredentials(_applicationSettings.UserName, _applicationSettings.Password)
-                     .WithCleanStart(_applicationSettings.CleanStart)
-                     .WithTlsOptions(new MqttClientTlsOptions() { UseTls = true })
-                     .Build();
+               MqttClientOptions mqttClientOptions;
+
+               if (string.IsNullOrWhiteSpace(_applicationSettings.ClientCertificateFileName))
+               {
+                  mqttClientOptions = new MqttClientOptionsBuilder()
+                        .WithClientId(_applicationSettings.ClientId)
+                        .WithTcpServer(_applicationSettings.Host, _applicationSettings.Port)
+                        .WithCredentials(_applicationSettings.UserName, _applicationSettings.Password)
+                        .WithCleanStart(_applicationSettings.CleanStart)
+                        .WithTlsOptions(new MqttClientTlsOptions(){UseTls = true})
+                        .Build();
+               }
+               else
+               {
+                  // Certificate based authentication
+                  List<X509Certificate2> certificates = new List<X509Certificate2>
+                  {
+                     new X509Certificate2(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword)
+                  };
+
+                  var tlsOptions = new MqttClientTlsOptionsBuilder()
+                       .WithClientCertificates(certificates)
+                       .WithSslProtocols(System.Security.Authentication.SslProtocols.Tls12)
+                       .UseTls(true)
+                       .Build();
+
+                  mqttClientOptions = new MqttClientOptionsBuilder()
+                        .WithClientId(_applicationSettings.ClientId)
+                        .WithTcpServer(_applicationSettings.Host, _applicationSettings.Port)
+                        .WithCredentials(_applicationSettings.UserName, _applicationSettings.Password)
+                        .WithCleanStart(_applicationSettings.CleanStart)
+                        .WithTlsOptions(tlsOptions)
+                        .Build();
+               }
 
                var connectResult = await _client.ConnectAsync(mqttClientOptions);
                if (connectResult.ResultCode != MqttClientConnectResultCode.Success)
@@ -91,7 +119,7 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient
 
       private static async void PublisherTimerCallback(object? state)
       {
-         // Just incase - stop code being called while photo already in progress
+         // Just incase - stop code being called while publish already in progress
          if (_publisherBusy)
          {
             return;
@@ -106,7 +134,7 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient
             });
 
             var message = new MqttApplicationMessageBuilder()
-                  .WithTopic(_applicationSettings.PublishTopic)
+                  .WithTopic(string.Format(_applicationSettings.PublishTopic, _applicationSettings.UserName))
                   .WithPayload(payload)
                   .WithQualityOfServiceLevel(_applicationSettings.PublishQualityOfService)
                .Build();
@@ -117,7 +145,7 @@ namespace devMobile.IoT.AzureEventGrid.MqttNetClient
 
             Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} MqttNet.Publish finish");
 
-            Console.WriteLine($" Published message to Topic:{_applicationSettings.PublishTopic} Reason:{resultPublish.ReasonCode}");
+            Console.WriteLine($" Published message to Topic:{message.Topic} Reason:{resultPublish.ReasonCode}");
          }
          catch (Exception ex)
          {
