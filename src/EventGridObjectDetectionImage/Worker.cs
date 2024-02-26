@@ -34,6 +34,8 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
       private HiveMQClient _Mqttclient;
       private bool _ImageProcessing = false;
       private YoloV8 _predictor;
+      private Timer _imageUpdateTimer;
+
 
       public Worker(ILogger<Worker> logger, IOptions<ApplicationSettings> applicationSettings)
       {
@@ -74,7 +76,7 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
 
                _logger.LogInformation("Timer Due:{_applicationSettings.ImageTimerDue} Period:{_applicationSettings.ImageTimerPeriod}", _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
 
-               new Timer(ImageUpdateTimerCallback, null, _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
+               _imageUpdateTimer = new Timer(ImageUpdateTimerCallback, null, _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
 
                try
                {
