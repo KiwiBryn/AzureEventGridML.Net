@@ -5,11 +5,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>7f45062d-b14e-436d-9b16-0f0c9c81f1b0</UserSecretsId>
+    <UserSecretsId>96a14806-13db-4307-a241-a364cfcdf859</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HiveMQtt" Version="0.10.2" />
+    <PackageReference Include="HiveMQtt" Version="0.10.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

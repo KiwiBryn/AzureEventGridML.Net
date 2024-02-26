@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 
-namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
+namespace devMobile.IoT.Azure.EventGrid.Image.Detect
 {
    public class Program
    {
@@ -22,7 +22,7 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
           Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-               services.Configure<ApplicationSettings>(hostContext.Configuration.GetSection("ApplicationSettings"));
+               services.Configure<Model.ApplicationSettings>(hostContext.Configuration.GetSection("ApplicationSettings"));
             })
             .ConfigureLogging(logging =>
             {

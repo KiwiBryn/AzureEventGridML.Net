@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
+namespace devMobile.IoT.Azure.EventGrid.Image.Detect
 {
    using System;
 
@@ -29,7 +29,7 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
    public class Worker : BackgroundService
    {
       private readonly ILogger<Worker> _logger;
-      private readonly ApplicationSettings _applicationSettings;
+      private readonly Model.ApplicationSettings _applicationSettings;
       private HttpClient _httpClient;
       private HiveMQClient _Mqttclient;
       private bool _ImageProcessing = false;
@@ -37,7 +37,7 @@ namespace devMobile.IoT.AzureEventGrid.ObjectDetectionImage
       private Timer _imageUpdateTimer;
 
 
-      public Worker(ILogger<Worker> logger, IOptions<ApplicationSettings> applicationSettings)
+      public Worker(ILogger<Worker> logger, IOptions<Model.ApplicationSettings> applicationSettings)
       {
          _logger = logger;
 
