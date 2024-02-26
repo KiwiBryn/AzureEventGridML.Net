@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.sstainba.Image.Detec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.dem-compunet.Image.Detect", "YoloV8.dem-compunet.Image.Detect\YoloV8.dem-compunet.Image.Detect.csproj", "{E480E70F-5B27-417F-945E-78350F46EF52}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventGridObjectDetectionImage", "EventGridObjectDetectionImage\EventGridObjectDetectionImage.csproj", "{F9815F34-1383-4C65-AF33-A21928EC24E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.EventGrid.Image.Detect", "EventGridObjectDetectionImage\Azure.EventGrid.Image.Detect.csproj", "{F9815F34-1383-4C65-AF33-A21928EC24E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
