@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCameraImage", "SecurityCameraImage\SecurityCameraImage.csproj", "{0FD8D277-8AF8-4C91-B7B4-5A0190AB6509}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Image", "SecurityCameraImage\SecurityCamera.Image.csproj", "{0FD8D277-8AF8-4C91-B7B4-5A0190AB6509}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTNetClient", "MqttNetClient\MQTTNetClient.csproj", "{4A991F24-6B64-4D19-BE85-04ED27A9DABD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiveMQClient", "HiveMQClient\HiveMQClient.csproj", "{44044A9D-0BCE-43B4-AC6D-2CE9F06308AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCameraVideo", "SecurityCameraVideo\SecurityCameraVideo.csproj", "{40253B64-C4C3-4421-BC51-88D1BE642F81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Video", "SecurityCameraVideo\SecurityCamera.Video.csproj", "{40253B64-C4C3-4421-BC51-88D1BE642F81}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8VideoClient", "YoloV8VideoClient\YoloV8VideoClient.csproj", "{4DBA6A05-8A4B-4C99-986B-A2E43DA8D1AA}"
 EndProject
@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MQTTClients", "MQTTClients"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SecurityCamera", "SecurityCamera", "{85984979-490A-4A8D-B18B-22C7F2AA1300}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCameraDiscovery", "SecurityCameraDiscovery\SecurityCameraDiscovery.csproj", "{D88B2219-57C0-4807-9055-8899E971BE81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera,Discovery", "SecurityCameraDiscovery\SecurityCamera,Discovery.csproj", "{D88B2219-57C0-4807-9055-8899E971BE81}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YoloV8", "YoloV8", "{0F587BC1-CEB5-483D-95BD-760097666354}"
 EndProject
