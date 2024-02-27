@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MQTTNetClient", "MqttNetCli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HiveMQClient", "HiveMQClient\HiveMQClient.csproj", "{44044A9D-0BCE-43B4-AC6D-2CE9F06308AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Video", "SecurityCameraVideo\SecurityCamera.Video.csproj", "{40253B64-C4C3-4421-BC51-88D1BE642F81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Video", "SecurityCamera.Video\SecurityCamera.Video.csproj", "{40253B64-C4C3-4421-BC51-88D1BE642F81}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8VideoClient", "YoloV8VideoClient\YoloV8VideoClient.csproj", "{4DBA6A05-8A4B-4C99-986B-A2E43DA8D1AA}"
 EndProject
