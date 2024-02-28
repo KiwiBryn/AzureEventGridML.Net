@@ -25,8 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MQTTClients", "MQTTClients"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SecurityCamera", "SecurityCamera", "{85984979-490A-4A8D-B18B-22C7F2AA1300}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Discovery", "SecurityCameraDiscovery\SecurityCamera.Discovery.csproj", "{D88B2219-57C0-4807-9055-8899E971BE81}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YoloV8", "YoloV8", "{0F587BC1-CEB5-483D-95BD-760097666354}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.NickSwardh.Image.Detect", "YoloV8.NickSwardh.Image.Detect\YoloV8.NickSwardh.Image.Detect.csproj", "{BD83CF23-DB3D-4201-B318-EC8480D617B5}"
@@ -37,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.dem-compunet.Image.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.EventGrid.Image.Detect", "Azure.EventGrid.Image.Detect\Azure.EventGrid.Image.Detect.csproj", "{F9815F34-1383-4C65-AF33-A21928EC24E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityCamera.Video.VisioForge", "SecurityCamera.Video.VisioForge\SecurityCamera.Video.VisioForge.csproj", "{D4A726E2-D634-4868-9C8D-50F28418BC28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Video.VisioForge", "SecurityCamera.Video.VisioForge\SecurityCamera.Video.VisioForge.csproj", "{D4A726E2-D634-4868-9C8D-50F28418BC28}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Discovery", "SecurityCamera.Discovery\SecurityCamera.Discovery.csproj", "{65DCA02B-EE08-49F3-9B97-0A07518F2313}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,10 +77,6 @@ Global
 		{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EF36069-65D8-4A5B-BF0E-4C2F3CEA8CDC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D88B2219-57C0-4807-9055-8899E971BE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D88B2219-57C0-4807-9055-8899E971BE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D88B2219-57C0-4807-9055-8899E971BE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D88B2219-57C0-4807-9055-8899E971BE81}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD83CF23-DB3D-4201-B318-EC8480D617B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD83CF23-DB3D-4201-B318-EC8480D617B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD83CF23-DB3D-4201-B318-EC8480D617B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -101,6 +97,10 @@ Global
 		{D4A726E2-D634-4868-9C8D-50F28418BC28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4A726E2-D634-4868-9C8D-50F28418BC28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4A726E2-D634-4868-9C8D-50F28418BC28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65DCA02B-EE08-49F3-9B97-0A07518F2313}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65DCA02B-EE08-49F3-9B97-0A07518F2313}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65DCA02B-EE08-49F3-9B97-0A07518F2313}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65DCA02B-EE08-49F3-9B97-0A07518F2313}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +118,7 @@ Global
 		{CDB38AF0-8EBD-43F3-B630-22074B857DA5} = {0F587BC1-CEB5-483D-95BD-760097666354}
 		{E480E70F-5B27-417F-945E-78350F46EF52} = {0F587BC1-CEB5-483D-95BD-760097666354}
 		{D4A726E2-D634-4868-9C8D-50F28418BC28} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
+		{65DCA02B-EE08-49F3-9B97-0A07518F2313} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9EEAA5AC-6C6F-48C6-8FCE-AC7E5D693536}
