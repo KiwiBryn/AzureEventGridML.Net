@@ -31,11 +31,10 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
       private readonly ILogger<Worker> _logger;
       private readonly Model.ApplicationSettings _applicationSettings;
       private HttpClient _httpClient;
-      private HiveMQClient _Mqttclient;
+      private HiveMQClient _mqttclient;
       private bool _ImageProcessing = false;
       private YoloV8 _predictor;
       private Timer _imageUpdateTimer;
-
 
       public Worker(ILogger<Worker> logger, IOptions<Model.ApplicationSettings> applicationSettings)
       {
@@ -59,16 +58,17 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
                .WithBroker(_applicationSettings.Host)
                .WithPort(_applicationSettings.Port)
                .WithUserName(_applicationSettings.UserName)
+               .WithPassword(_applicationSettings.Password)
+               //.WithClientCertificate(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword)
                .WithCleanStart(_applicationSettings.CleanStart)
-               .WithClientCertificate(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword)
                .WithUseTls(true);
 
-            using (_Mqttclient = new HiveMQClient(optionsBuilder.Build()))
+            using (_mqttclient = new HiveMQClient(optionsBuilder.Build()))
             using (_predictor = new YoloV8(_applicationSettings.ModelPath))
             {
-               _Mqttclient.OnMessageReceived += OnMessageReceived;
+               _mqttclient.OnMessageReceived += OnMessageReceived;
 
-               var connectResult = await _Mqttclient.ConnectAsync();
+               var connectResult = await _mqttclient.ConnectAsync();
                if (connectResult.ReasonCode != ConnAckReasonCode.Success)
                {
                   throw new Exception($"Failed to connect: {connectResult.ReasonString}");
@@ -100,7 +100,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
       {
          DateTime requestAtUtc = DateTime.UtcNow;
 
-         // Just incase - stop code being called while photo already in progress
+         // Just incase - stop code being called while photo or prediction already in progress
          if (_ImageProcessing)
          {
             return;
@@ -109,37 +109,45 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
 
          try
          {
+            _logger.LogDebug("Camera request start");
+
             using (Stream cameraStream = await _httpClient.GetStreamAsync(_applicationSettings.CameraUrl))
             using (Stream fileStream = File.Create(_applicationSettings.ImageCameraFilepath))
             {
                await cameraStream.CopyToAsync(fileStream);
             }
 
+            _logger.LogDebug("Camera request done");
+
             var result = await _predictor.DetectAsync(_applicationSettings.ImageCameraFilepath);
 
-            Console.WriteLine($"Speed: {result.Speed}");
+            _logger.LogDebug("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
 
-            foreach (var box in result.Boxes)
+            if (_logger.IsEnabled(LogLevel.Debug))
             {
-               _logger.LogInformation("Class {box.Class} {Confidence:f1}% X:{box.Bounds.X} Y:{box.Bounds.Y} Width:{box.Bounds.Width} Height:{box.Bounds.Height}", box.Class, box.Confidence * 100.0, box.Bounds.X, box.Bounds.Y, box.Bounds.Width, box.Bounds.Height);
+               foreach (var box in result.Boxes)
+               {
+                  _logger.LogDebug(" Class {box.Class} {Confidence:f1}% X:{box.Bounds.X} Y:{box.Bounds.Y} Width:{box.Bounds.Width} Height:{box.Bounds.Height}", box.Class, box.Confidence * 100.0, box.Bounds.X, box.Bounds.Y, box.Bounds.Width, box.Bounds.Height);
+               }
             }
-
-            var payload = JsonSerializer.Serialize(new
-            {
-               result.Boxes,
-            });
 
             var message = new MQTT5PublishMessage
             {
                Topic = string.Format(_applicationSettings.PublishTopic, _applicationSettings.UserName),
-               Payload = Encoding.ASCII.GetBytes(payload),
+               Payload = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(new
+               {
+                  result.Boxes,
+               })),
                QoS = _applicationSettings.PublishQualityOfService,
             };
 
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.Publish start");
+            _logger.LogDebug("HiveMQ.Publish start");
 
-            var resultPublish = await _Mqttclient.PublishAsync(message);
+            var resultPublish = await _mqttclient.PublishAsync(message);
+
+            _logger.LogDebug("HiveMQ.Publish done");
          }
+
          catch (Exception ex)
          {
             _logger.LogError(ex, "Camera image download, processing, or telemetry failed");
@@ -154,11 +162,9 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
          _logger.LogInformation("Camera Image download, processing and telemetry done {TotalSeconds:f2} sec", duration.TotalSeconds);
       }
 
-      private static void OnMessageReceived(object? sender, HiveMQtt.Client.Events.OnMessageReceivedEventArgs e)
+      private void OnMessageReceived(object? sender, HiveMQtt.Client.Events.OnMessageReceivedEventArgs e)
       {
-         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.receive start");
-         Console.WriteLine($" Topic:{e.PublishMessage.Topic} QoS:{e.PublishMessage.QoS} Payload:{e.PublishMessage.PayloadAsString}");
-         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} HiveMQ.receive finish");
+         _logger.LogInformation("OnMessageReceived Topic:{Topic} QoS:{QoS} Payload:{PayloadAsString}", e.PublishMessage.Topic, e.PublishMessage.QoS, e.PublishMessage.PayloadAsString);
       }
    }
 }
