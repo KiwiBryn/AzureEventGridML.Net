@@ -15,7 +15,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 
-namespace devMobile.IoT.AzureEventGrid.YoloV8.NickSwardh.Image.Detect
+namespace devMobile.IoT.YoloV8.NickSwardh.Image.Detect
 {
    internal class Program
    {
