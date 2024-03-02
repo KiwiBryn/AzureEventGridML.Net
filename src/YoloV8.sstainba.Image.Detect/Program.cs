@@ -31,7 +31,6 @@ namespace devMobile.IoT.YoloV8.sstainba.Image.Detect
             // load the app settings into configuration
             var configuration = new ConfigurationBuilder()
                  .AddJsonFile("appsettings.json", false, true)
-            .AddUserSecrets<Program>()
             .Build();
 
             _applicationSettings = configuration.GetSection("ApplicationSettings").Get<Model.ApplicationSettings>();
