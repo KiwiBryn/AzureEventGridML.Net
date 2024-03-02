@@ -14,7 +14,7 @@ using Compunet.YoloV8.Plotting;
 using SixLabors.ImageSharp;
 
 
-namespace devMobile.IoT.AzureEventGrid.YoloV8.dem_compunet.Image.Detect
+namespace devMobile.IoT.YoloV8.dem_compunet.Image.Detect
 {
    internal class Program
    {
@@ -56,8 +56,8 @@ namespace devMobile.IoT.AzureEventGrid.YoloV8.dem_compunet.Image.Detect
                Console.WriteLine();
 
                Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save start : {_applicationSettings.ImageOutputPath}");
-               using var origin = SixLabors.ImageSharp.Image.Load(_applicationSettings.ImageInputPath);
 
+               using var origin = SixLabors.ImageSharp.Image.Load(_applicationSettings.ImageInputPath);
                using (var ploted = await result.PlotImageAsync(origin))
                {
                   ploted.Save(_applicationSettings.ImageOutputPath);
