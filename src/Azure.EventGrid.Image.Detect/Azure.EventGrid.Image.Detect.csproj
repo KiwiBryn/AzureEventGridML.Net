@@ -8,6 +8,10 @@
     <UserSecretsId>96a14806-13db-4307-a241-a364cfcdf859</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);AUTHENTICATION_CERTIFICATES</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="HiveMQtt" Version="0.10.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
