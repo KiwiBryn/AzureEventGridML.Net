@@ -365,8 +365,14 @@ FodyWeavers.xsd
 /src/SecurityCameraImage/ImageCamera.jpg
 /src/YoloV8.dem-compunet.Image.Detect/ImageCamera.jpg
 /src/YoloV8.dem-compunet.Image.Detect/ImageOutput.jpg
+<<<<<<< Updated upstream
 /src/Azure.EventGrid.Image.Detect/ImageCamera.jpg
 /src/Azure.EventGrid.Image.Detect/Model/yolov8s.onnx
+=======
+>>>>>>> Stashed changes
 /src/YoloV8.NickSwardh.Image.Detect/Model/yolov8s.onnx
 /src/YoloV8.NickSwardh.Image.Detect/ImageCamera.jpg
 /src/YoloV8.NickSwardh.Image.Detect/ImageOutput.jpg
+/src/YoloV8.sstainba.Image.Detect/ImageCamera.jpg
+/src/YoloV8.sstainba.Image.Detect/ImageOutput.jpg
+/src/YoloV8.sstainba.Image.Detect/Model/yolov8s.onnx
