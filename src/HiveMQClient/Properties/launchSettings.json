@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "HiveMQClient": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
