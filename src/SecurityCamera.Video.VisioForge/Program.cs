@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace devMobile.IoT.AzureEventGrid.SecurityCamera.Video
+namespace devMobile.IoT.SecurityCamera.Video.VisioForge
 {
    static class Program
    {
