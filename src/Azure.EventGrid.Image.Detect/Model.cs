@@ -19,14 +19,8 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect.Model
 
       public string UserName { get; set; }
 
-#if AUTHENTICATION_USERNAME_AND_PASSWORD
-      public string Password { get; set; }
-#endif
-
-#if AUTHENTICATION_CERTIFICATES
       public string ClientCertificateFileName { get; set; }
       public string ClientCertificatePassword { get; set; }
-#endif
 
       public int Port { get; set; }
       public string Host { get; set; }
