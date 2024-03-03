@@ -58,12 +58,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
                .WithBroker(_applicationSettings.Host)
                .WithPort(_applicationSettings.Port)
                .WithUserName(_applicationSettings.UserName)
-#if AUTHENTICATION_USERNAME_AND_PASSWORD
-               .WithPassword(_applicationSettings.Password)
-#endif
-#if AUTHENTICATION_CERTIFICATES
                .WithClientCertificate(_applicationSettings.ClientCertificateFileName, _applicationSettings.ClientCertificatePassword)
-#endif
                .WithCleanStart(_applicationSettings.CleanStart)
                .WithUseTls(true);
 
