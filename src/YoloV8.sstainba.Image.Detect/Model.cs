@@ -13,5 +13,9 @@ namespace devMobile.IoT.YoloV8.sstainba.Image.Detect.Model
 		public string ImageOutputPath { get; set; }
 
 		public string ModelPath { get; set; }
-	}
+
+      public string FontName {  get; set; }
+
+		public int FontSize { get; set; }
+   }
 }

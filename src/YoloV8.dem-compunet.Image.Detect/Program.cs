@@ -12,6 +12,7 @@ using Compunet.YoloV8;
 using Compunet.YoloV8.Plotting;
 
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 
 namespace devMobile.IoT.YoloV8.dem_compunet.Image.Detect
@@ -36,34 +37,34 @@ namespace devMobile.IoT.YoloV8.dem_compunet.Image.Detect
 
             Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load start : {_applicationSettings.ModelPath}");
 
-            using (Compunet.YoloV8.YoloV8 predictor = new Compunet.YoloV8.YoloV8(_applicationSettings.ModelPath))
+            using (var predictor = new Compunet.YoloV8.YoloV8(_applicationSettings.ModelPath))
             {
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load done : {_applicationSettings.ModelPath}");
+               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load done");
                Console.WriteLine();
 
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect start : {_applicationSettings.ModelPath}");
-               var result = await predictor.DetectAsync(_applicationSettings.ImageInputPath);
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done : {_applicationSettings.ModelPath}");
-               Console.WriteLine();
-
-               Console.WriteLine($" Speed: {result.Speed}");
-
-               foreach (var box in result.Boxes)
+               using (var image = await SixLabors.ImageSharp.Image.LoadAsync<Rgba32>(_applicationSettings.ImageInputPath))
                {
-                  Console.WriteLine($"  Class {box.Class} {(box.Confidence * 100.0):f1}% X:{box.Bounds.X} Y:{box.Bounds.Y} Width:{box.Bounds.Width} Height:{box.Bounds.Height}");
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect start");
+
+                  var predictions = await predictor.DetectAsync(image);
+
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done");
+                  Console.WriteLine();
+
+                  Console.WriteLine($" Speed: {predictions.Speed}");
+
+                  foreach (var prediction in predictions.Boxes)
+                  {
+                     Console.WriteLine($"  Class {prediction.Class} {(prediction.Confidence * 100.0):f1}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
+                  }
+                  Console.WriteLine();
+
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
+
+                  SixLabors.ImageSharp.Image imageOutput = await predictions.PlotImageAsync(image);
+
+                  await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
                }
-
-               Console.WriteLine();
-
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save start : {_applicationSettings.ImageOutputPath}");
-
-               using var origin = SixLabors.ImageSharp.Image.Load(_applicationSettings.ImageInputPath);
-               using (var ploted = await result.PlotImageAsync(origin))
-               {
-                  ploted.Save(_applicationSettings.ImageOutputPath);
-               }
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save done : {_applicationSettings.ImageOutputPath}");
-               Console.WriteLine();
             }
          }
          catch (Exception ex)

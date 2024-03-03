@@ -21,7 +21,7 @@ namespace devMobile.IoT.YoloV8.NickSwardh.Image.Detect
    {
       private static Model.ApplicationSettings _applicationSettings;
 
-      static void Main()
+      static async Task Main()
       {
          Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} YoloV8.NickSwardh.Image starting");
 
@@ -36,30 +36,31 @@ namespace devMobile.IoT.YoloV8.NickSwardh.Image.Detect
 
             Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load start : {_applicationSettings.ModelPath}");
 
-            using (var yolo = new Yolo(_applicationSettings.ModelPath, false))
+            using (var predictor = new Yolo(_applicationSettings.ModelPath, false))
             {
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load done : {_applicationSettings.ModelPath}");
+               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load done");
                Console.WriteLine();
 
-               using (var image = SixLabors.ImageSharp.Image.Load<Rgba32>(_applicationSettings.ImageInputPath))
+               using (var image = await SixLabors.ImageSharp.Image.LoadAsync<Rgba32>(_applicationSettings.ImageInputPath))
                {
-                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect start : {_applicationSettings.ModelPath}");
-                  var results = yolo.RunObjectDetection(image);
-                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done : {_applicationSettings.ModelPath}");
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect start");
 
+                  var predictions = predictor.RunObjectDetection(image);
+
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done");
                   Console.WriteLine();
 
-                  foreach (var result in results)
+                  foreach (var predicition in predictions)
                   {
-                     Console.WriteLine($"  Class {result.Label.Name} {(result.Confidence * 100.0):f1}% X:{result.BoundingBox.Left} Y:{result.BoundingBox.Y} Width:{result.BoundingBox.Width} Height:{result.BoundingBox.Height}");
+                     Console.WriteLine($"  Class {predicition.Label.Name} {(predicition.Confidence * 100.0):f1}% X:{predicition.BoundingBox.Left} Y:{predicition.BoundingBox.Y} Width:{predicition.BoundingBox.Width} Height:{predicition.BoundingBox.Height}");
                   }
                   Console.WriteLine();
 
                   Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
 
-                  image.Draw(results);
+                  image.Draw(predictions);
 
-                  image.Save(_applicationSettings.ImageOutputPath);
+                  await image.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
                }
             }
          }
