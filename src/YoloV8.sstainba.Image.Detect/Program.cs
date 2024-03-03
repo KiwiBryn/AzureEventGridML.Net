@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
 using Yolov8Net;
@@ -37,55 +38,51 @@ namespace devMobile.IoT.YoloV8.sstainba.Image.Detect
 
             Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load start : {_applicationSettings.ModelPath}");
 
-            using (var image = SixLabors.ImageSharp.Image.Load(_applicationSettings.ImageInputPath))
             using (var predictor = YoloV8Predictor.Create(_applicationSettings.ModelPath))
             {
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load done : {_applicationSettings.ModelPath}");
+               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load done");
                Console.WriteLine();
 
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect start : {_applicationSettings.ModelPath}");
-               var predictions = predictor.Predict(image);
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done : {_applicationSettings.ModelPath}");
-               Console.WriteLine();
-
-               foreach (var prediction in predictions)
+               using (var image = await SixLabors.ImageSharp.Image.LoadAsync<Rgba32>(_applicationSettings.ImageInputPath))
                {
-                  Console.WriteLine($"  Class {prediction.Label.Name} {(prediction.Score * 100.0):f1}% X:{prediction.Rectangle.X} Y:{prediction.Rectangle.Y} Width:{prediction.Rectangle.Width} Height:{prediction.Rectangle.Height}");
-               }
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect start");
 
-               Console.WriteLine();
+                  var predictions = predictor.Predict(image);
 
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save start : {_applicationSettings.ImageOutputPath}");
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done");
+                  Console.WriteLine();
 
-               using (SixLabors.ImageSharp.Image output = SixLabors.ImageSharp.Image.Load(_applicationSettings.ImageInputPath))
-               {
-                  SixLabors.Fonts.Font font = new SixLabors.Fonts.Font(SystemFonts.Get("Arial"), 10);
-
-                  foreach (var pred in predictions)
+                  foreach (var prediction in predictions)
                   {
-                     var originalImageHeight = output.Height;
-                     var originalImageWidth = output.Width;
+                     Console.WriteLine($"  Class {prediction.Label.Name} {(prediction.Score * 100.0):f1}% X:{prediction.Rectangle.X} Y:{prediction.Rectangle.Y} Width:{prediction.Rectangle.Width} Height:{prediction.Rectangle.Height}");
+                  }
 
-                     var x = (int)Math.Max(pred.Rectangle.X, 0);
-                     var y = (int)Math.Max(pred.Rectangle.Y, 0);
-                     var width = (int)Math.Min(originalImageWidth - x, pred.Rectangle.Width);
-                     var height = (int)Math.Min(originalImageHeight - y, pred.Rectangle.Height);
+                  Console.WriteLine();
+
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
+
+                  // This is a bit hacky should be fixed up in future release
+                  Font font = new Font(SystemFonts.Get(_applicationSettings.FontName), _applicationSettings.FontSize);
+                  foreach (var prediction in predictions)
+                  {
+                     var x = (int)Math.Max(prediction.Rectangle.X, 0);
+                     var y = (int)Math.Max(prediction.Rectangle.Y, 0);
+                     var width = (int)Math.Min(image.Width - x, prediction.Rectangle.Width);
+                     var height = (int)Math.Min(image.Height - y, prediction.Rectangle.Height);
 
                      //Note that the output is already scaled to the original image height and width.
 
                      // Bounding Box Text
-                     string text = $"{pred.Label.Name} [{pred.Score}]";
+                     string text = $"{prediction.Label.Name} [{prediction.Score}]";
                      var size = TextMeasurer.MeasureSize(text, new TextOptions(font));
 
-                     output.Mutate(d => d.Draw(Pens.Solid(Color.Yellow, 2),
-                         new Rectangle(x, y, width, height)));
+                     image.Mutate(d => d.Draw(Pens.Solid(Color.Yellow, 2), new Rectangle(x, y, width, height)));
 
-                     output.Mutate(d => d.DrawText(text, font, Color.Yellow, new Point(x, (int)(y - size.Height - 1))));
+                     image.Mutate(d => d.DrawText(text, font, Color.Yellow, new Point(x, (int)(y - size.Height - 1))));
                   }
 
-                  output.SaveAsJpeg(_applicationSettings.ImageOutputPath);
+                  await image.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
                }
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save done : {_applicationSettings.ImageOutputPath}");
             }
          }
          catch (Exception ex)
