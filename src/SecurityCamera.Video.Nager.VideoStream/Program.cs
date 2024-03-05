@@ -36,18 +36,25 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
                Directory.CreateDirectory(_applicationSettings.ImageFilepathLocal);
             }
 
-            //var inputSource = new WebcamInputSource("Microsoft® LifeCam HD-3000");
-            var inputSource = new StreamInputSource(_applicationSettings.CameraUrl);
+#if INPUT_SOURCE_WEB_CAMERA
+            var inputSource = new WebcamInputSource(_applicationSettings.WebCameraDeviceName);
+#endif
+
+#if INPUT_SOURCE_RTSP_CAMERA
+            var inputSource = new StreamInputSource(_applicationSettings.RtspCameraUrl);
+#endif
 
             var cancellationTokenSource = new CancellationTokenSource();
 
             _ = Task.Run(async () => await StartStreamProcessingAsync(inputSource, cancellationTokenSource.Token));
-            Console.WriteLine("Press any key for stop");
+
+            Console.WriteLine("Press any key to stop");
             Console.ReadKey();
+
             cancellationTokenSource.Cancel();
 
-            Console.WriteLine("Press any key for quit");
-            Console.ReadKey();
+            Console.WriteLine("Press ENTER to exit");
+            Console.ReadLine();
          }
          catch (Exception ex)
          {
@@ -61,13 +68,17 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
          try
          {
             var client = new VideoStreamClient();
-            client.NewImageReceived += NewImageReceived;
-            client.FFmpegInfoReceived += FFmpegInfoReceived;
 
+            client.NewImageReceived += NewImageReceived;
+#if FFMPEG_INFO_DISPLAY
+            client.FFmpegInfoReceived += FFmpegInfoReceived;
+#endif
             await client.StartFrameReaderAsync(inputSource, OutputImageFormat.Png, cancellationToken: cancellationToken);
 
             client.NewImageReceived -= NewImageReceived;
+#if FFMPEG_INFO_DISPLAY
             client.FFmpegInfoReceived -= FFmpegInfoReceived;
+#endif
             Console.WriteLine("End Stream Processing");
          }
          catch (Exception exception)
@@ -76,17 +87,19 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
          }
       }
 
-      private static void FFmpegInfoReceived(string ffmpegStreamInfo)
-      {
-         //frame=   77 fps=6.4 q=-0.0 size=  467779kB time=00:00:02.56 bitrate=1493004.8kbits/s dup=16 drop=0 speed=0.214x
-         Console.WriteLine(ffmpegStreamInfo);
-      }
-
       private static void NewImageReceived(byte[] imageData)
       {
          Console.WriteLine($"New image received, bytes:{imageData.Length}");
-         File.WriteAllBytes($@"frames\{DateTime.Now.Ticks}.png", imageData);
+
+         File.WriteAllBytes($"{_applicationSettings.ImageFilepathLocal}\\{DateTime.Now.Ticks}.png", imageData);
       }
+
+#if FFMPEG_INFO_DISPLAY
+      private static void FFmpegInfoReceived(string ffmpegStreamInfo)
+      {
+         Console.WriteLine(ffmpegStreamInfo);
+      }
+#endif
    }
 }
 

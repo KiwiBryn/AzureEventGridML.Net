@@ -8,6 +8,10 @@
     <UserSecretsId>56b94b44-e808-4032-a4d8-493e6f30b74e</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);INPUT_SOURCE_RTSP_CAMERA</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>

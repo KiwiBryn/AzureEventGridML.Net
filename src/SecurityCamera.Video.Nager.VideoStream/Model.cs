@@ -10,8 +10,10 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream.Model
 {
 	public class ApplicationSettings
 	{
-		public string CameraUrl { get; set; }
+		public string RtspCameraUrl { get; set; }
 
-		public string ImageFilepathLocal { get; set; }
+      public string WebCameraDeviceName { get; set; }
+
+      public string ImageFilepathLocal { get; set; }
 	}
 }
