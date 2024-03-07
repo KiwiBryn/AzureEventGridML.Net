@@ -33,7 +33,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
       private HttpClient _httpClient;
       private HiveMQClient _mqttclient;
       private bool _ImageProcessing = false;
-      private YoloV8 _predictor;
+      private YoloV8Predictor _predictor;
       private Timer _imageUpdateTimer;
 
       public Worker(ILogger<Worker> logger, IOptions<Model.ApplicationSettings> applicationSettings)
@@ -63,7 +63,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
                .WithUseTls(true);
 
             using (_mqttclient = new HiveMQClient(optionsBuilder.Build()))
-            using (_predictor = new YoloV8(_applicationSettings.ModelPath))
+            using (_predictor = YoloV8Predictor.Create(_applicationSettings.ModelPath))
             {
                _mqttclient.OnMessageReceived += OnMessageReceived;
 
