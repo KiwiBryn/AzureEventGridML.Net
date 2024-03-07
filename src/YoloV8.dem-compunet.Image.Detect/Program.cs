@@ -37,7 +37,7 @@ namespace devMobile.IoT.YoloV8.dem_compunet.Image.Detect
 
             Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load start : {_applicationSettings.ModelPath}");
 
-            using (var predictor = new Compunet.YoloV8.YoloV8(_applicationSettings.ModelPath))
+            using (var predictor = YoloV8Predictor.Create(_applicationSettings.ModelPath))
             {
                Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load done");
                Console.WriteLine();
