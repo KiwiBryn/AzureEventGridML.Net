@@ -20,6 +20,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
    using Microsoft.Extensions.Options;
 
    using Compunet.YoloV8;
+   using Compunet.YoloV8.Data;
 
    using HiveMQtt.Client;
    using HiveMQtt.MQTT5.ReasonCodes;
@@ -110,17 +111,14 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
          {
             _logger.LogDebug("Camera request start");
 
+            DetectionResult result;
+
             using (Stream cameraStream = await _httpClient.GetStreamAsync(_applicationSettings.CameraUrl))
-            using (Stream fileStream = File.Create(_applicationSettings.ImageCameraFilepath))
             {
-               await cameraStream.CopyToAsync(fileStream);
+               result = await _predictor.DetectAsync(cameraStream);
             }
 
-            _logger.LogDebug("Camera request done");
-
-            var result = await _predictor.DetectAsync(_applicationSettings.ImageCameraFilepath);
-
-            _logger.LogDebug("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
+            _logger.LogInformation("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
 
             if (_logger.IsEnabled(LogLevel.Debug))
             {
@@ -158,7 +156,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
 
          TimeSpan duration = DateTime.UtcNow - requestAtUtc;
 
-         _logger.LogInformation("Camera Image download, processing and telemetry done {TotalSeconds:f2} sec", duration.TotalSeconds);
+         _logger.LogDebug("Camera Image download, processing and telemetry done {TotalSeconds:f2} sec", duration.TotalSeconds);
       }
 
       private void OnMessageReceived(object? sender, HiveMQtt.Client.Events.OnMessageReceivedEventArgs e)
