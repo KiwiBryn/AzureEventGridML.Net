@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
 
-namespace devMobile.IoT.AzureEventGrid.SecurityCameraImage
+namespace devMobile.IoT.SecurityCameraImage
 {
    class Program
    {

@@ -6,7 +6,7 @@
 //---------------------------------------------------------------------------------
 using System;
 
-namespace devMobile.IoT.AzureEventGrid.SecurityCameraImage.Model
+namespace devMobile.IoT.SecurityCameraImage.Model
 {
 	public class ApplicationSettings
 	{
