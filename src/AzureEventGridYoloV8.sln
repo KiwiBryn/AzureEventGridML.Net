@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Discovery", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Video.Nager.VideoStream", "SecurityCamera.Video.Nager.VideoStream\SecurityCamera.Video.Nager.VideoStream.csproj", "{731CA19C-D074-4668-9E75-9858A89A7879}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoloV8.Image.Detect.SecurityCamera.Stream", "YoloV8.Image.Detect.SecurityCamera.Stream\YoloV8.Image.Detect.SecurityCamera.Stream.csproj", "{4D8BB2E0-2F68-484B-9EA1-89BF6AA785B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Image.Detect.SecurityCamera.Stream", "YoloV8.Image.Detect.SecurityCamera.Stream\YoloV8.Image.Detect.SecurityCamera.Stream.csproj", "{4D8BB2E0-2F68-484B-9EA1-89BF6AA785B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +118,7 @@ Global
 		{D4A726E2-D634-4868-9C8D-50F28418BC28} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
 		{65DCA02B-EE08-49F3-9B97-0A07518F2313} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
 		{731CA19C-D074-4668-9E75-9858A89A7879} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
+		{4D8BB2E0-2F68-484B-9EA1-89BF6AA785B1} = {0F587BC1-CEB5-483D-95BD-760097666354}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9EEAA5AC-6C6F-48C6-8FCE-AC7E5D693536}
