@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Discovery", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Video.Nager.VideoStream", "SecurityCamera.Video.Nager.VideoStream\SecurityCamera.Video.Nager.VideoStream.csproj", "{731CA19C-D074-4668-9E75-9858A89A7879}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Image.Detect.SecurityCamera.Image", "YoloV8.Image.Detect.SecurityCamera.Image\YoloV8.Image.Detect.SecurityCamera.Image.csproj", "{4D8BB2E0-2F68-484B-9EA1-89BF6AA785B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Detect.SecurityCamera.Image", "YoloV8.Detect.SecurityCamera.Image\YoloV8.Detect.SecurityCamera.Image.csproj", "{4D8BB2E0-2F68-484B-9EA1-89BF6AA785B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

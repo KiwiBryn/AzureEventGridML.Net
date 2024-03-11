@@ -379,3 +379,4 @@ FodyWeavers.xsd
 /src/SecurityCamera.Image/ImageCamera.jpg
 /src/YoloV8.Image.Detect.SecurityCamera.Stream/Model/yolov8s.onnx
 /src/YoloV8.Image.Detect.SecurityCamera.Image/Model/yolov8s.onnx
+/src/YoloV8.Detect.SecurityCamera.Image/Model/yolov8s.onnx
