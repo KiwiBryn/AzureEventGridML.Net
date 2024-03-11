@@ -381,3 +381,9 @@ FodyWeavers.xsd
 /src/YoloV8.Detect.dem-compunet.Image/Model/yolov8s.onnx
 /src/YoloV8.Detect.dem-compunet.Image/ImageCamera.jpg
 /src/YoloV8.Detect.dem-compunet.Image/ImageOutput.jpg
+/src/YoloV8.Detect.NickSwardh.Image/ImageCamera.jpg
+/src/YoloV8.Detect.NickSwardh.Image/ImageOutput.jpg
+/src/YoloV8.Detect.sstainba.Image/ImageCamera.jpg
+/src/YoloV8.Detect.sstainba.Image/ImageOutput.jpg
+/src/YoloV8.Detect.sstainba.Image/Model/yolov8s.onnx
+/src/YoloV8.Detect.NickSwardh.Image/Model/yolov8s.onnx
