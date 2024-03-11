@@ -23,11 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SecurityCamera", "SecurityC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YoloV8", "YoloV8", "{0F587BC1-CEB5-483D-95BD-760097666354}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.NickSwardh.Image.Detect", "YoloV8.NickSwardh.Image.Detect\YoloV8.NickSwardh.Image.Detect.csproj", "{BD83CF23-DB3D-4201-B318-EC8480D617B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Detect.NickSwardh.Image", "YoloV8.NickSwardh.Image.Detect\YoloV8.Detect.NickSwardh.Image.csproj", "{BD83CF23-DB3D-4201-B318-EC8480D617B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.sstainba.Image.Detect", "YoloV8.sstainba.Image.Detect\YoloV8.sstainba.Image.Detect.csproj", "{CDB38AF0-8EBD-43F3-B630-22074B857DA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Detect.sstainba.Image", "YoloV8.sstainba.Image.Detect\YoloV8.Detect.sstainba.Image.csproj", "{CDB38AF0-8EBD-43F3-B630-22074B857DA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.dem-compunet.Image.Detect", "YoloV8.dem-compunet.Image.Detect\YoloV8.dem-compunet.Image.Detect.csproj", "{E480E70F-5B27-417F-945E-78350F46EF52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Detect.dem-compunet.Image", "YoloV8.dem-compunet.Image.Detect\YoloV8.Detect.dem-compunet.Image.csproj", "{E480E70F-5B27-417F-945E-78350F46EF52}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.EventGrid.Image.Detect", "Azure.EventGrid.Image.Detect\Azure.EventGrid.Image.Detect.csproj", "{F9815F34-1383-4C65-AF33-A21928EC24E0}"
 EndProject
