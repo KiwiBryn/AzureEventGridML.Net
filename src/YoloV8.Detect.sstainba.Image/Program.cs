@@ -17,7 +17,7 @@ using SixLabors.ImageSharp.Processing;
 using Yolov8Net;
 
 
-namespace devMobile.IoT.YoloV8.sstainba.Image.Detect
+namespace devMobile.IoT.YoloV8.Detect.sstainba.Image
 {
    internal class Program
    {

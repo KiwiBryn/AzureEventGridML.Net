@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.YoloV8.sstainba.Image.Detect.Model
+namespace devMobile.IoT.YoloV8.Detect.sstainba.Image.Model
 {
 	public class ApplicationSettings
 	{

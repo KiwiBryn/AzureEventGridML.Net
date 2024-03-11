@@ -15,7 +15,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 
-namespace devMobile.IoT.YoloV8.dem_compunet.Image.Detect
+namespace devMobile.IoT.YoloV8.Detect.dem_compunet.Image
 {
    internal class Program
    {

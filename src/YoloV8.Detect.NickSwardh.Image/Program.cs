@@ -15,7 +15,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 
-namespace devMobile.IoT.YoloV8.NickSwardh.Image.Detect
+namespace devMobile.IoT.YoloV8.Detect.NickSwardh.Image
 {
    internal class Program
    {

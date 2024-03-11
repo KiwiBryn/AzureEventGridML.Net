@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.YoloV8.dem_compunet.Image.Detect.Model
+namespace devMobile.IoT.YoloV8.Detect.dem_compunet.Image.Model
 {
 	public class ApplicationSettings
 	{
