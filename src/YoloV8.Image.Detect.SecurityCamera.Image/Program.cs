@@ -12,7 +12,7 @@ using Compunet.YoloV8;
 using Compunet.YoloV8.Data;
 
 
-namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Stream
+namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image
 {
    class Program
    {
