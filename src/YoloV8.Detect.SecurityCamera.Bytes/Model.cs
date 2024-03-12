@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Model
+namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Bytes.Model
 {
 	public class ApplicationSettings
    {

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+   <PropertyGroup>
+      <OutputType>Exe</OutputType>
+      <TargetFramework>net8.0</TargetFramework>
+      <ImplicitUsings>enable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+      <UserSecretsId>851ad3cc-818d-499d-bb61-c9ae5ed48a85</UserSecretsId>
+   </PropertyGroup>
+
+   <ItemGroup>
+     <None Remove="appsettings.json" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <Content Include="appsettings.json">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </Content>
+   </ItemGroup>
+
+
+   <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+      <PackageReference Include="SixLabors.ImageSharp" Version="3.1.3" />
+      <PackageReference Include="YoloV8" Version="4.0.0" />
+   </ItemGroup>
+</Project>

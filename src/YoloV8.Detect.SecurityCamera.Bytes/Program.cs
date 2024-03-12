@@ -12,7 +12,7 @@ using Compunet.YoloV8;
 using Compunet.YoloV8.Data;
 
 
-namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image
+namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Bytes
 {
    class Program
    {
@@ -23,13 +23,13 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image
 
       static async Task Main(string[] args)
       {
-         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} SecurityCameraImage starting");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} SecurityCameraImageBytes starting");
 
          try
          {
             // load the app settings into configuration
             var configuration = new ConfigurationBuilder()
-                 .AddJsonFile("appsettings.json", false, true)
+            .AddJsonFile("appsettings.json", false, true)
                  .AddUserSecrets<Program>()
             .Build();
 
@@ -40,7 +40,7 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image
             using (_httpClient = new HttpClient(new HttpClientHandler { PreAuthenticate = true, Credentials = networkCredential }))
             using (_predictor = YoloV8Predictor.Create(_applicationSettings.ModelPath))
             {
-              Timer imageUpdatetimer = new Timer(ImageUpdateTimerCallback, null, _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
+               Timer imageUpdatetimer = new Timer(ImageUpdateTimerCallback, null, _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
 
                Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss} press <ctrl^c> to exit");
 
@@ -71,14 +71,11 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image
 
          try
          {
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image processing start");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image Bytes processing start");
 
-            DetectionResult result;
+            byte[] bytes = await _httpClient.GetByteArrayAsync(_applicationSettings.CameraUrl);
 
-            using (System.IO.Stream cameraStream = await _httpClient.GetStreamAsync(_applicationSettings.CameraUrl))
-            {
-               result = await _predictor.DetectAsync(cameraStream);
-            }
+            DetectionResult result = await _predictor.DetectAsync(bytes);
 
             Console.WriteLine($"Speed: {result.Speed}");
 

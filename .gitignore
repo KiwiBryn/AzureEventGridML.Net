@@ -362,22 +362,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /src/IntermediateCertificate/EventGridIntermediate.cer
-/src/SecurityCameraImage/ImageCamera.jpg
-/src/YoloV8.dem-compunet.Image.Detect/ImageCamera.jpg
-/src/YoloV8.dem-compunet.Image.Detect/ImageOutput.jpg
-<<<<<<< Updated upstream
-/src/Azure.EventGrid.Image.Detect/ImageCamera.jpg
+
 /src/Azure.EventGrid.Image.Detect/Model/yolov8s.onnx
-=======
->>>>>>> Stashed changes
-/src/YoloV8.NickSwardh.Image.Detect/Model/yolov8s.onnx
-/src/YoloV8.NickSwardh.Image.Detect/ImageCamera.jpg
-/src/YoloV8.NickSwardh.Image.Detect/ImageOutput.jpg
-/src/YoloV8.sstainba.Image.Detect/ImageCamera.jpg
-/src/YoloV8.sstainba.Image.Detect/ImageOutput.jpg
-/src/YoloV8.sstainba.Image.Detect/Model/yolov8s.onnx
 /src/SecurityCamera.Image/ImageCamera.jpg
-/src/YoloV8.Detect.SecurityCamera.Image/Model/yolov8s.onnx
 /src/YoloV8.Detect.dem-compunet.Image/Model/yolov8s.onnx
 /src/YoloV8.Detect.dem-compunet.Image/ImageCamera.jpg
 /src/YoloV8.Detect.dem-compunet.Image/ImageOutput.jpg
@@ -387,4 +374,7 @@ FodyWeavers.xsd
 /src/YoloV8.Detect.sstainba.Image/ImageOutput.jpg
 /src/YoloV8.Detect.sstainba.Image/Model/yolov8s.onnx
 /src/YoloV8.Detect.NickSwardh.Image/Model/yolov8s.onnx
-/src/YoloV8.Detect.SecurityCamera.Image/Model/yolov8s.onnx
+/src/YoloV8.Detect.SecurityCamera.Stream/Model/yolov8s.onnx
+/src/YoloV8.Detect.SecurityCamera.File/Model/yolov8s.onnx
+/src/YoloV8.Detect.SecurityCamera.File/ImageCamera.jpg
+/src/YoloV8.Detect.SecurityCamera.Bytes/Model/yolov8s.onnx
