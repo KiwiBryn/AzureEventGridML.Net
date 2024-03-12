@@ -12,7 +12,7 @@ using Compunet.YoloV8;
 using Compunet.YoloV8.Data;
 
 
-namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image
+namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Stream
 {
    class Program
    {
@@ -23,7 +23,7 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image
 
       static async Task Main(string[] args)
       {
-         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} SecurityCameraImage starting");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} SecurityCameraImageStream starting");
 
          try
          {

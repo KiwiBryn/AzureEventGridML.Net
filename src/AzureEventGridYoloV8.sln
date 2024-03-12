@@ -37,9 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Discovery", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityCamera.Video.Nager.VideoStream", "SecurityCamera.Video.Nager.VideoStream\SecurityCamera.Video.Nager.VideoStream.csproj", "{731CA19C-D074-4668-9E75-9858A89A7879}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Detect.SecurityCamera.Image", "YoloV8.Detect.SecurityCamera.Image\YoloV8.Detect.SecurityCamera.Image.csproj", "{FCD070F9-83A9-46E3-9CC4-AB1BFC55CCAC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Detect.SecurityCamera.File", "YoloV8.Detect.SecurityCamera.File\YoloV8.Detect.SecurityCamera.File.csproj", "{1B53FBF0-FC9B-46F4-88D7-BC91FAF53DB1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Detect.SecurityCamera.Stream", "YoloV8.Detect.SecurityCamera.Stream\YoloV8.Detect.SecurityCamera.Stream.csproj", "{6E722A2B-DDF0-4162-A558-D5A647E4FB66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,14 +99,14 @@ Global
 		{731CA19C-D074-4668-9E75-9858A89A7879}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{731CA19C-D074-4668-9E75-9858A89A7879}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{731CA19C-D074-4668-9E75-9858A89A7879}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCD070F9-83A9-46E3-9CC4-AB1BFC55CCAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCD070F9-83A9-46E3-9CC4-AB1BFC55CCAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCD070F9-83A9-46E3-9CC4-AB1BFC55CCAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCD070F9-83A9-46E3-9CC4-AB1BFC55CCAC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B53FBF0-FC9B-46F4-88D7-BC91FAF53DB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B53FBF0-FC9B-46F4-88D7-BC91FAF53DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B53FBF0-FC9B-46F4-88D7-BC91FAF53DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B53FBF0-FC9B-46F4-88D7-BC91FAF53DB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E722A2B-DDF0-4162-A558-D5A647E4FB66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E722A2B-DDF0-4162-A558-D5A647E4FB66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E722A2B-DDF0-4162-A558-D5A647E4FB66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E722A2B-DDF0-4162-A558-D5A647E4FB66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +124,8 @@ Global
 		{D4A726E2-D634-4868-9C8D-50F28418BC28} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
 		{65DCA02B-EE08-49F3-9B97-0A07518F2313} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
 		{731CA19C-D074-4668-9E75-9858A89A7879} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
+		{1B53FBF0-FC9B-46F4-88D7-BC91FAF53DB1} = {0F587BC1-CEB5-483D-95BD-760097666354}
+		{6E722A2B-DDF0-4162-A558-D5A647E4FB66} = {0F587BC1-CEB5-483D-95BD-760097666354}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9EEAA5AC-6C6F-48C6-8FCE-AC7E5D693536}
