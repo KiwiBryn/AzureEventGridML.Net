@@ -71,7 +71,7 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.File
 
          try
          {
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image processing start");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image File processing start");
 
             using (Stream cameraStream = await _httpClient.GetStreamAsync(_applicationSettings.CameraUrl))
             using (Stream fileStream = System.IO.File.Create(_applicationSettings.ImageFilepath))

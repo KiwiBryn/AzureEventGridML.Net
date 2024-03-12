@@ -71,7 +71,7 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Stream
 
          try
          {
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image processing start");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image Stream processing start");
 
             DetectionResult result;
 

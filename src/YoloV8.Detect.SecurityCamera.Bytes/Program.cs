@@ -23,7 +23,7 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Bytes
 
       static async Task Main(string[] args)
       {
-         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} SecurityCameraImageStream starting");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} SecurityCameraImageBytes starting");
 
          try
          {
@@ -71,7 +71,7 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Bytes
 
          try
          {
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image processing start");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image Bytes processing start");
 
             byte[] bytes = await _httpClient.GetByteArrayAsync(_applicationSettings.CameraUrl);
 
