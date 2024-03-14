@@ -378,3 +378,12 @@ FodyWeavers.xsd
 /src/YoloV8.Detect.SecurityCamera.File/Model/yolov8s.onnx
 /src/YoloV8.Detect.SecurityCamera.File/ImageCamera.jpg
 /src/YoloV8.Detect.SecurityCamera.Bytes/Model/yolov8s.onnx
+/src/YoloV8.Pose.SecurityCamera.Stream/Model/yolov8s.onnx
+/src/YoloV8.Pose.SecurityCamera.File/Model/yolov8s-pose.onnx
+/src/YoloV8.Pose.SecurityCamera.Stream/Model/yolov8s-pose.onnx
+/src/YoloV8.Pose.SecurityCamera.File/ImageCamera.jpg
+/src/YoloV8.Pose.SecurityCamera.File/ImageOutput.jpg
+/src/YoloV8.Pose.SecurityCamera.Stream/InputImage.jpg
+/src/YoloV8.Pose.SecurityCamera.Stream/outputImage.jpg
+/src/YoloV8.Detect.SecurityCamera.Stream/outputImage.jpg
+/src/YoloV8.Detect.SecurityCamera.Stream/InputImage.jpg
