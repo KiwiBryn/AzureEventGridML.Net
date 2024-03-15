@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.Azure.EventGrid.Image.Detect.Model
+namespace devMobile.IoT.Azure.EventGrid.Image.Model
 {
    using System;
 

@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.Azure.EventGrid.Image.Detect
+namespace devMobile.IoT.Azure.EventGrid.Image
 {
    using System;
 
@@ -96,6 +96,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
          _logger.LogInformation("Azure IoT Smart Edge Camera Service shutdown");
       }
 
+#if DETECTION
       private async void ImageUpdateTimerCallback(object? state)
       {
          DateTime requestAtUtc = DateTime.UtcNow;
@@ -158,10 +159,82 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
 
          _logger.LogDebug("Camera Image download, processing and telemetry done {TotalSeconds:f2} sec", duration.TotalSeconds);
       }
+#endif
+
+#if POSE
+      private async void ImageUpdateTimerCallback(object? state)
+      {
+         DateTime requestAtUtc = DateTime.UtcNow;
+
+         // Just incase - stop code being called while photo or prediction already in progress
+         if (_ImageProcessing)
+         {
+            return;
+         }
+         _ImageProcessing = true;
+
+         try
+         {
+            _logger.LogDebug("Camera request start");
+
+            PoseResult result;
+
+            using (Stream cameraStream = await _httpClient.GetStreamAsync(_applicationSettings.CameraUrl))
+            {
+               result = await _predictor.PoseAsync(cameraStream);
+            }
+
+            _logger.LogInformation("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
+
+
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+               foreach (var box in result.Boxes)
+               {
+                  _logger.LogDebug(" Class {box.Class} {Confidence:f1}% X:{X} Y:{Y} Width:{Width} Height:{Height}", box.Class, box.Confidence * 100.0, box.Bounds.X, box.Bounds.Y, box.Bounds.Width, box.Bounds.Height);
+
+                  foreach (var keypoint in box.Keypoints)
+                  {
+                     _logger.LogDebug("  Class {Class} {Confidence:f1}% X:{X} Y:{Y}", keypoint.Index, keypoint.Confidence * 100.0, keypoint.Point.X, keypoint.Point.Y);
+                  }
+               }
+
+               var message = new MQTT5PublishMessage
+               {
+                  Topic = string.Format(_applicationSettings.PublishTopic, _applicationSettings.UserName),
+                  Payload = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(new
+                  {
+                     result.Boxes
+                  })),
+                  QoS = _applicationSettings.PublishQualityOfService,
+               };
+
+               _logger.LogDebug("HiveMQ.Publish start");
+
+               var resultPublish = await _mqttclient.PublishAsync(message);
+
+               _logger.LogDebug("HiveMQ.Publish done");
+            }
+         }
+         catch (Exception ex)
+         {
+            _logger.LogError(ex, "Camera image download, processing, or telemetry failed");
+         }
+         finally
+         {
+            _ImageProcessing = false;
+         }
+
+         TimeSpan duration = DateTime.UtcNow - requestAtUtc;
+
+         _logger.LogDebug("Camera Image download, processing and telemetry done {TotalSeconds:f2} sec", duration.TotalSeconds);
+      }
+#endif
 
       private void OnMessageReceived(object? sender, HiveMQtt.Client.Events.OnMessageReceivedEventArgs e)
       {
          _logger.LogInformation("OnMessageReceived Topic:{Topic} QoS:{QoS} Payload:{PayloadAsString}", e.PublishMessage.Topic, e.PublishMessage.QoS, e.PublishMessage.PayloadAsString);
       }
+
    }
 }
