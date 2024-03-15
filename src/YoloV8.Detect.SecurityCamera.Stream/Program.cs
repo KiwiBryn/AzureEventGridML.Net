@@ -10,9 +10,12 @@ using Microsoft.Extensions.Configuration;
 
 using Compunet.YoloV8;
 using Compunet.YoloV8.Data;
+using Compunet.YoloV8.Plotting;
+
+using SixLabors.ImageSharp;
 
 
-namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Stream
+namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Stream
 {
    class Program
    {
@@ -71,13 +74,21 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Stream
 
          try
          {
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image Stream processing start");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Image processing start");
 
             DetectionResult result;
 
             using (System.IO.Stream cameraStream = await _httpClient.GetStreamAsync(_applicationSettings.CameraUrl))
+            using (var imageInput = await Image.LoadAsync(cameraStream))
             {
-               result = await _predictor.DetectAsync(cameraStream);
+               result = await _predictor.DetectAsync(imageInput);
+
+               await imageInput.SaveAsJpegAsync(_applicationSettings.ImageInputPath);
+
+               using (var imageOutput = await result.PlotImageAsync(imageInput))
+               {
+                  await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
+               }
             }
 
             Console.WriteLine($"Speed: {result.Speed}");
@@ -87,7 +98,7 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Stream
                Console.WriteLine($" Class {prediction.Class} {(prediction.Confidence * 100.0):f1}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
             }
 
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Security Camera Image processing done");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss:fff} YoloV8 Image processing done");
          }
          catch (Exception ex)
          {

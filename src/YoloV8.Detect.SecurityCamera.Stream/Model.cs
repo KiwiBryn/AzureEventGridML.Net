@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Stream.Model
+namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Stream.Model
 {
 	public class ApplicationSettings
    {
@@ -16,5 +16,9 @@ namespace devMobile.IoT.YoloV8.Detect.SecurityCamera.Image.Stream.Model
       public string CameraUserPassword { get; set; }
 
       public string ModelPath { get; set; }
+
+      public string ImageInputPath { get; set; }
+
+      public string ImageOutputPath { get; set; }
    }
 }
