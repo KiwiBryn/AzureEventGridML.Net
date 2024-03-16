@@ -123,6 +123,8 @@ namespace devMobile.IoT.Azure.EventGrid.Image
 
             if (_logger.IsEnabled(LogLevel.Debug))
             {
+               _logger.LogDebug("Detection results");
+
                foreach (var box in result.Boxes)
                {
                   _logger.LogDebug(" Class {box.Class} {Confidence:f1}% X:{box.Bounds.X} Y:{box.Bounds.Y} Width:{box.Bounds.Width} Height:{box.Bounds.Height}", box.Class, box.Confidence * 100.0, box.Bounds.X, box.Bounds.Y, box.Bounds.Width, box.Bounds.Height);
@@ -189,13 +191,17 @@ namespace devMobile.IoT.Azure.EventGrid.Image
 
             if (_logger.IsEnabled(LogLevel.Debug))
             {
+               _logger.LogDebug("Pose results");
+
                foreach (var box in result.Boxes)
                {
-                  _logger.LogDebug(" Class {box.Class} {Confidence:f1}% X:{X} Y:{Y} Width:{Width} Height:{Height}", box.Class, box.Confidence * 100.0, box.Bounds.X, box.Bounds.Y, box.Bounds.Width, box.Bounds.Height);
+                  _logger.LogDebug(" Class:{box.Class} Confidence:{Confidence:f1}% X:{X} Y:{Y} Width:{Width} Height:{Height}", box.Class.Name, box.Confidence * 100.0, box.Bounds.X, box.Bounds.Y, box.Bounds.Width, box.Bounds.Height);
 
                   foreach (var keypoint in box.Keypoints)
                   {
-                     _logger.LogDebug("  Class {Class} {Confidence:f1}% X:{X} Y:{Y}", keypoint.Index, keypoint.Confidence * 100.0, keypoint.Point.X, keypoint.Point.Y);
+                     Model.PoseMarker poseMarker = (Model.PoseMarker)keypoint.Index;
+
+                     _logger.LogDebug("  Class:{Class} Confidence:{Confidence:f1}% X:{X} Y:{Y}", Enum.GetName(poseMarker), keypoint.Confidence * 100.0, keypoint.Point.X, keypoint.Point.Y);
                   }
                }
 

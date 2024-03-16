@@ -38,4 +38,27 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Model
 
       public string ModelPath { get; set; }
    }
+
+#if POSE
+   public enum PoseMarker
+   {
+      Nose,
+      LeftEye,
+      RightEye,
+      LeftEar,
+      RightEar,
+      LeftShoulder,
+      RightShoulder,
+      LeftElbow,
+      RightElbow,
+      LeftWrist,
+      RightWrist,
+      LeftHip,
+      RightHip,
+      LeftKnee,
+      RightKnee,
+      LeftAnkle,
+      RightAnkle
+   }
+#endif
 }

@@ -11,7 +11,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);POSE</DefineConstants>
+    <DefineConstants>$(DefineConstants);DETECTION</DefineConstants>
   </PropertyGroup>
 
    <ItemGroup>
