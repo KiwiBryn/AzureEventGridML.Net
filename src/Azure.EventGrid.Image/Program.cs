@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 
-namespace devMobile.IoT.Azure.EventGrid.Image.Detect
+namespace devMobile.IoT.Azure.EventGrid.Image
 {
    public class Program
    {

@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.Azure.EventGrid.Image.Detect.Model
+namespace devMobile.IoT.Azure.EventGrid.Image.Model
 {
    using System;
 
@@ -38,4 +38,27 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect.Model
 
       public string ModelPath { get; set; }
    }
+
+#if POSE
+   public enum PoseMarker
+   {
+      Nose,
+      LeftEye,
+      RightEye,
+      LeftEar,
+      RightEar,
+      LeftShoulder,
+      RightShoulder,
+      LeftElbow,
+      RightElbow,
+      LeftWrist,
+      RightWrist,
+      LeftHip,
+      RightHip,
+      LeftKnee,
+      RightKnee,
+      LeftAnkle,
+      RightAnkle
+   }
+#endif
 }
