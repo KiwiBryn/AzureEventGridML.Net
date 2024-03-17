@@ -54,7 +54,7 @@ namespace devMobile.IoT.YoloV8.Detect.sstainba.Image
 
                   foreach (var prediction in predictions)
                   {
-                     Console.WriteLine($"  Class {prediction.Label.Name} {(prediction.Score * 100.0):f1}% X:{prediction.Rectangle.X} Y:{prediction.Rectangle.Y} Width:{prediction.Rectangle.Width} Height:{prediction.Rectangle.Height}");
+                     Console.WriteLine($"  Class {prediction.Label.Name} {(prediction.Score * 100.0):f1}% X:{prediction.Rectangle.X:f0} Y:{prediction.Rectangle.Y:f0} Width:{prediction.Rectangle.Width:f0} Height:{prediction.Rectangle.Height:f0}");
                   }
 
                   Console.WriteLine();
