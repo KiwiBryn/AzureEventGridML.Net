@@ -6,43 +6,16 @@
 //---------------------------------------------------------------------------------
 namespace devMobile.IoT.Azure.EventGrid.Image
 {
-   using System;
-
-   using System.Net;
-   using System.Net.Http;
-   using System.Text.Json;
-   using System.Text;
-   using System.Threading;
-   using System.Threading.Tasks;
-
-   using Microsoft.Extensions.Hosting;
-   using Microsoft.Extensions.Logging;
-   using Microsoft.Extensions.Options;
-
-   using Compunet.YoloV8;
-   using Compunet.YoloV8.Data;
-
-   using HiveMQtt.Client;
-   using HiveMQtt.MQTT5.ReasonCodes;
-   using HiveMQtt.MQTT5.Types;
-
-
-   public class Worker : BackgroundService
+   internal class Worker(ILogger<Worker> logger, IOptions<Model.ApplicationSettings> applicationSettings) : BackgroundService
    {
-      private readonly ILogger<Worker> _logger;
-      private readonly Model.ApplicationSettings _applicationSettings;
+      private readonly ILogger<Worker> _logger = logger;
+      private readonly Model.ApplicationSettings _applicationSettings = applicationSettings.Value;
       private HttpClient _httpClient;
       private HiveMQClient _mqttclient;
       private bool _ImageProcessing = false;
       private YoloV8Predictor _predictor;
       private Timer _imageUpdateTimer;
 
-      public Worker(ILogger<Worker> logger, IOptions<Model.ApplicationSettings> applicationSettings)
-      {
-         _logger = logger;
-
-         _applicationSettings = applicationSettings.Value;
-      }
 
       protected override async Task ExecuteAsync(CancellationToken stoppingToken)
       {
@@ -52,8 +25,6 @@ namespace devMobile.IoT.Azure.EventGrid.Image
 
          try
          {
-            _httpClient = new HttpClient(new HttpClientHandler { PreAuthenticate = true, Credentials = new NetworkCredential(_applicationSettings.CameraUserName, _applicationSettings.CameraUserPassword)});
-
             optionsBuilder
                .WithClientId(_applicationSettings.ClientId)
                .WithBroker(_applicationSettings.Host)
@@ -63,6 +34,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image
                .WithCleanStart(_applicationSettings.CleanStart)
                .WithUseTls(true);
 
+            using (_httpClient = new HttpClient(new HttpClientHandler { PreAuthenticate = true, Credentials = new NetworkCredential(_applicationSettings.CameraUserName, _applicationSettings.CameraUserPassword)}))
             using (_mqttclient = new HiveMQClient(optionsBuilder.Build()))
             using (_predictor = YoloV8Predictor.Create(_applicationSettings.ModelPath))
             {

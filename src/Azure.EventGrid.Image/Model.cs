@@ -6,11 +6,7 @@
 //---------------------------------------------------------------------------------
 namespace devMobile.IoT.Azure.EventGrid.Image.Model
 {
-   using System;
-
-   using HiveMQtt.MQTT5.Types;
-
-   public class ApplicationSettings
+   internal class ApplicationSettings
 	{
 		public string DeviceId { get; set; }
 
