@@ -47,6 +47,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.EventGrid.Image", "Az
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Pose.SecurityCamera.Stream", "YoloV8.Pose.SecurityCamera.Stream\YoloV8.Pose.SecurityCamera.Stream.csproj", "{4F9117EE-0470-4917-8D2D-370BB4454036}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.EventGrid.Image.Detect", "Azure.EventGrid.Image.Detect\Azure.EventGrid.Image.Detect.csproj", "{91C09C1B-467D-4810-B533-F26CFBA39D69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.EventGrid.Image.Pose", "Azure.EventGrid.Image.Pose\Azure.EventGrid.Image.Pose.csproj", "{D943F295-F28F-4277-A721-92CDD7A759D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +125,14 @@ Global
 		{4F9117EE-0470-4917-8D2D-370BB4454036}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F9117EE-0470-4917-8D2D-370BB4454036}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F9117EE-0470-4917-8D2D-370BB4454036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91C09C1B-467D-4810-B533-F26CFBA39D69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C09C1B-467D-4810-B533-F26CFBA39D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C09C1B-467D-4810-B533-F26CFBA39D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C09C1B-467D-4810-B533-F26CFBA39D69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D943F295-F28F-4277-A721-92CDD7A759D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D943F295-F28F-4277-A721-92CDD7A759D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D943F295-F28F-4277-A721-92CDD7A759D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D943F295-F28F-4277-A721-92CDD7A759D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,6 +155,8 @@ Global
 		{9906B445-02F5-4AE0-AEB8-C382A094203A} = {0F587BC1-CEB5-483D-95BD-760097666354}
 		{7BEBE3F0-2637-4ED3-A46A-23514BA2AC01} = {2F4BF3F0-A752-44F0-B6A3-15A274839145}
 		{4F9117EE-0470-4917-8D2D-370BB4454036} = {0F587BC1-CEB5-483D-95BD-760097666354}
+		{91C09C1B-467D-4810-B533-F26CFBA39D69} = {2F4BF3F0-A752-44F0-B6A3-15A274839145}
+		{D943F295-F28F-4277-A721-92CDD7A759D7} = {2F4BF3F0-A752-44F0-B6A3-15A274839145}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9EEAA5AC-6C6F-48C6-8FCE-AC7E5D693536}
