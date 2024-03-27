@@ -394,3 +394,6 @@ FodyWeavers.xsd
 /src/YoloV8.Detect.NickSwardh.Image/ImageInput.jpg
 /src/Azure.EventGrid.Image/Model/yolov8s.onnx
 /src/Azure.EventGrid.Image/Model/yolov8s-pose.onnx
+/src/Azure.EventGrid.Image.Pose/Model/yolov8s-pose.onnx
+/src/Azure.EventGrid.Image.Detect/Camera01.pfx
+/src/Azure.EventGrid.Image.Pose/Camera01.pfx

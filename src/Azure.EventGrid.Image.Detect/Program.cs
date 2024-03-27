@@ -1,10 +1,34 @@
-﻿namespace Azure.EventGrid.Image.Detect
+﻿//---------------------------------------------------------------------------------
+// Copyright (c) March 2024, devMobile Software
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+//---------------------------------------------------------------------------------
+namespace devMobile.IoT.Azure.EventGrid.Image.Detect
 {
-   internal class Program
+   public class Program
    {
-      static void Main(string[] args)
+      public static void Main(string[] args)
       {
-         Console.WriteLine("Hello, World!");
+         CreateHostBuilder(args).Build().Run();
       }
+
+      public static IHostBuilder CreateHostBuilder(string[] args) =>
+          Host.CreateDefaultBuilder(args)
+            .ConfigureServices((hostContext, services) =>
+            {
+               services.Configure<Model.ApplicationSettings>(hostContext.Configuration.GetSection("ApplicationSettings"));
+            })
+            .ConfigureLogging(logging =>
+            {
+               logging.ClearProviders();
+               logging.AddSimpleConsole(c => c.TimestampFormat = "[HH:mm:ss.ff]");
+            })
+            .UseSystemd()
+              .ConfigureServices((hostContext, services) =>
+              {
+                 services.AddHostedService<Worker>();
+              });
    }
 }
+
