@@ -397,3 +397,4 @@ FodyWeavers.xsd
 /src/Azure.EventGrid.Image.Pose/Model/yolov8s-pose.onnx
 /src/Azure.EventGrid.Image.Detect/Camera01.pfx
 /src/Azure.EventGrid.Image.Pose/Camera01.pfx
+/ffmpeg.exe
