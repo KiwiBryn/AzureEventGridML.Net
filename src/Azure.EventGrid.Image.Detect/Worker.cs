@@ -46,6 +46,13 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
                   throw new Exception($"Failed to connect: {connectResult.ReasonString}");
                }
 
+               foreach (string topic in _applicationSettings.SubscribeTopics.Split(",", StringSplitOptions.RemoveEmptyEntries))
+               {
+                  var result = await _mqttclient.SubscribeAsync(string.Format(topic, _applicationSettings.UserName), _applicationSettings.SunbscribeQualityOfService);
+
+                  _logger.LogInformation(" Subscription Topic:{Topic} QoS:{QoS} ReasonCode:{SubscribeReasonCode}", result.Subscriptions[0].TopicFilter.Topic, result.Subscriptions[0].TopicFilter.QoS, result.Subscriptions[0].SubscribeReasonCode);
+               }
+
                _logger.LogInformation("Timer Due:{_applicationSettings.ImageTimerDue} Period:{_applicationSettings.ImageTimerPeriod}", _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
 
                _imageUpdateTimer = new Timer(ImageUpdateTimerCallback, null, _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
@@ -90,7 +97,7 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
                result = await _predictor.DetectAsync(cameraStream);
             }
 
-            _logger.LogInformation("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
+            _logger.LogDebug("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
 
             if (_logger.IsEnabled(LogLevel.Debug))
             {

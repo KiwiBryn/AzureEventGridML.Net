@@ -28,6 +28,11 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect.Model
 
       public QualityOfService PublishQualityOfService { get; set; }
 
+      public string SubscribeTopics { get; set; }
+
+      public QualityOfService SunbscribeQualityOfService { get; set; }
+
+
       public string CameraUrl { get; set; }
       public string CameraUserName { get; set; }
       public string CameraUserPassword { get; set; }
