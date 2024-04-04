@@ -17,6 +17,8 @@ var host = new HostBuilder()
           //
           // https://github.com/Azure/azure-functions-dotnet-worker/blob/main/samples/FunctionApp/Program.cs
           //
+          // I do wonder if options.Rules.Clear() might be a valid option
+          //
           LoggerFilterRule toRemove = options.Rules.FirstOrDefault(rule => rule.ProviderName == "Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider");
           if (toRemove is not null)
           {
