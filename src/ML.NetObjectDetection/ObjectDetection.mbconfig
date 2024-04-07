@@ -1,0 +1,32 @@
+﻿{
+  "Scenario": "ObjectDetection",
+  "DataSource": {
+    "Type": "Vott",
+    "Version": 1
+  },
+  "Environment": {
+    "Type": "LocalCPU",
+    "Version": 1
+  },
+  "Type": "TrainingConfig",
+  "Version": 5,
+  "TrainingOption": {
+    "Version": 0,
+    "Type": "ObjectDetectionTrainingOption",
+    "TrainingTime": 2147483647,
+    "Epoch": 5,
+    "ScoreThreshold": 0.35,
+    "IOUThreshold": 0.5,
+    "ValidationOption": {
+      "Version": 0,
+      "Type": "TrainValidateSplitValidationOption",
+      "SplitRatio": 0.2
+    },
+    "ResizeOption": {
+      "Version": 0,
+      "Type": "Resize",
+      "Width": 800,
+      "Height": 600
+    }
+  }
+}
