@@ -1,8 +1,9 @@
 ﻿{
   "Scenario": "ObjectDetection",
   "DataSource": {
-    "Type": "Vott",
-    "Version": 1
+    "Version": 0,
+    "Type": "Coco",
+    "FilePath": "C:\\Users\\BrynLewis\\Downloads\\StACScholarship\\GraceK\\Coco\\Tennis Ball.v2i.coco\\train\\_annotations.coco.json"
   },
   "Environment": {
     "Type": "LocalCPU",
