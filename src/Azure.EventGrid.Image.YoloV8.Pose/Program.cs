@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.Azure.EventGrid.Image.Pose
+namespace devMobile.IoT.Azure.EventGrid.Image.YoloV8.Pose
 {
    public class Program
    {

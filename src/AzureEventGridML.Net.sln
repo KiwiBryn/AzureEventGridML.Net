@@ -45,9 +45,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureEventGrid", "AzureEven
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoloV8.Pose.SecurityCamera.Stream", "YoloV8.Pose.SecurityCamera.Stream\YoloV8.Pose.SecurityCamera.Stream.csproj", "{4F9117EE-0470-4917-8D2D-370BB4454036}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.EventGrid.Image.Detect", "Azure.EventGrid.Image.Detect\Azure.EventGrid.Image.Detect.csproj", "{91C09C1B-467D-4810-B533-F26CFBA39D69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.EventGrid.Image.YoloV8.Detect", "Azure.EventGrid.Image.YoloV8.Detect\Azure.EventGrid.Image.YoloV8.Detect.csproj", "{91C09C1B-467D-4810-B533-F26CFBA39D69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.EventGrid.Image.Pose", "Azure.EventGrid.Image.Pose\Azure.EventGrid.Image.Pose.csproj", "{D943F295-F28F-4277-A721-92CDD7A759D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.EventGrid.Image.YoloV8.Pose", "Azure.EventGrid.Image.YoloV8.Pose\Azure.EventGrid.Image.YoloV8.Pose.csproj", "{D943F295-F28F-4277-A721-92CDD7A759D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageObjectDetectionAlertProcessor", "ImageObjectDetectionAlertProcessor\ImageObjectDetectionAlertProcessor.csproj", "{03A626A0-CEDC-4ADD-BED2-AA84F5DA60E6}"
 EndProject

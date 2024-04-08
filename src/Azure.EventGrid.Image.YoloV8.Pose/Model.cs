@@ -4,7 +4,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.Azure.EventGrid.Image.Pose.Model
+namespace devMobile.IoT.Azure.EventGrid.Image.YoloV8.Pose.Model
 {
    internal class ApplicationSettings
 	{

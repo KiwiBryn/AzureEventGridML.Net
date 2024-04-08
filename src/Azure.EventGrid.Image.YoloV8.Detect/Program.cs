@@ -11,7 +11,7 @@
 // If not, see <https://www.gnu.org/licenses/>
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.Azure.EventGrid.Image.Detect
+namespace devMobile.IoT.Azure.EventGrid.Image.YoloV8.Detect
 {
    public class Program
    {

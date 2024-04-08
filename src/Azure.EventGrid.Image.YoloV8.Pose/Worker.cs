@@ -1,17 +1,10 @@
 ﻿//---------------------------------------------------------------------------------
-// Copyright (c) March 2024, devMobile Software - Azure Event Grid + YoloV8 for object detection PoC
+// Copyright (c) March 2024, devMobile Software
 //
-// This program is free software: you can redistribute it and/or modify it under the terms of the GNU
-// Affero General Public License as published by the Free Software Foundation, either version 3 of the
-// License, or (at your option) any later version.
-// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
-// even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU Affero General Public License for more details.
-// You should have received a copy of the GNU Affero General Public License along with this program. 
-// If not, see <https://www.gnu.org/licenses/>
+// http://www.apache.org/licenses/LICENSE-2.0
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.Azure.EventGrid.Image.Detect
+namespace devMobile.IoT.Azure.EventGrid.Image.YoloV8.Pose
 {
    internal class Worker(ILogger<Worker> logger, IOptions<Model.ApplicationSettings> applicationSettings) : BackgroundService
    {
@@ -53,13 +46,6 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
                   throw new Exception($"Failed to connect: {connectResult.ReasonString}");
                }
 
-               foreach (string topic in _applicationSettings.SubscribeTopics.Split(",", StringSplitOptions.RemoveEmptyEntries))
-               {
-                  var result = await _mqttclient.SubscribeAsync(string.Format(topic, _applicationSettings.UserName), _applicationSettings.SunbscribeQualityOfService);
-
-                  _logger.LogInformation(" Subscription Topic:{Topic} QoS:{QoS} ReasonCode:{SubscribeReasonCode}", result.Subscriptions[0].TopicFilter.Topic, result.Subscriptions[0].TopicFilter.QoS, result.Subscriptions[0].SubscribeReasonCode);
-               }
-
                _logger.LogInformation("Timer Due:{_applicationSettings.ImageTimerDue} Period:{_applicationSettings.ImageTimerPeriod}", _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
 
                _imageUpdateTimer = new Timer(ImageUpdateTimerCallback, null, _applicationSettings.ImageTimerDue, _applicationSettings.ImageTimerPeriod);
@@ -97,42 +83,49 @@ namespace devMobile.IoT.Azure.EventGrid.Image.Detect
          {
             _logger.LogDebug("Camera request start");
 
-            DetectionResult result;
+            PoseResult result;
 
             using (Stream cameraStream = await _httpClient.GetStreamAsync(_applicationSettings.CameraUrl))
             {
-               result = await _predictor.DetectAsync(cameraStream);
+               result = await _predictor.PoseAsync(cameraStream);
             }
 
-            _logger.LogDebug("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
+            _logger.LogInformation("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
+
 
             if (_logger.IsEnabled(LogLevel.Debug))
             {
-               _logger.LogDebug("Detection results");
+               _logger.LogDebug("Pose results");
 
                foreach (var box in result.Boxes)
                {
-                  _logger.LogDebug(" Class {box.Class} {Confidence:f1}% X:{box.Bounds.X} Y:{box.Bounds.Y} Width:{box.Bounds.Width} Height:{box.Bounds.Height}", box.Class, box.Confidence * 100.0, box.Bounds.X, box.Bounds.Y, box.Bounds.Width, box.Bounds.Height);
+                  _logger.LogDebug(" Class:{box.Class} Confidence:{Confidence:f1}% X:{X} Y:{Y} Width:{Width} Height:{Height}", box.Class.Name, box.Confidence * 100.0, box.Bounds.X, box.Bounds.Y, box.Bounds.Width, box.Bounds.Height);
+
+                  foreach (var keypoint in box.Keypoints)
+                  {
+                     Model.PoseMarker poseMarker = (Model.PoseMarker)keypoint.Index;
+
+                     _logger.LogDebug("  Class:{Class} Confidence:{Confidence:f1}% X:{X} Y:{Y}", Enum.GetName(poseMarker), keypoint.Confidence * 100.0, keypoint.Point.X, keypoint.Point.Y);
+                  }
                }
-            }
 
-            var message = new MQTT5PublishMessage
-            {
-               Topic = string.Format(_applicationSettings.PublishTopic, _applicationSettings.UserName),
-               Payload = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(new
+               var message = new MQTT5PublishMessage
                {
-                  result.Boxes,
-               })),
-               QoS = _applicationSettings.PublishQualityOfService,
-            };
+                  Topic = string.Format(_applicationSettings.PublishTopic, _applicationSettings.UserName),
+                  Payload = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(new
+                  {
+                     result.Boxes
+                  })),
+                  QoS = _applicationSettings.PublishQualityOfService,
+               };
 
-            _logger.LogDebug("HiveMQ.Publish start");
+               _logger.LogDebug("HiveMQ.Publish start");
 
-            var resultPublish = await _mqttclient.PublishAsync(message);
+               var resultPublish = await _mqttclient.PublishAsync(message);
 
-            _logger.LogDebug("HiveMQ.Publish done");
+               _logger.LogDebug("HiveMQ.Publish done");
+            }
          }
-
          catch (Exception ex)
          {
             _logger.LogError(ex, "Camera image download, processing, or telemetry failed");

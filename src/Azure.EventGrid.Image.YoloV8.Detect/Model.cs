@@ -11,7 +11,7 @@
 // If not, see <https://www.gnu.org/licenses/>
 //
 //---------------------------------------------------------------------------------
-namespace devMobile.IoT.Azure.EventGrid.Image.Detect.Model
+namespace devMobile.IoT.Azure.EventGrid.Image.YoloV8.Detect.Model
 {
    internal class ApplicationSettings
 	{
