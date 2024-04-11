@@ -58,10 +58,11 @@ namespace devMobile.IoT.YoloV8.Detect.dem_compunet.Image
 
                   Console.WriteLine($" Speed: {predictions.Speed}");
 
-                  foreach (var prediction in predictions.Boxes)
+                  foreach (var box in predictions.Boxes)
                   {
-                     Console.WriteLine($"  Class {prediction.Class} {(prediction.Confidence * 100.0):f1}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
+                     Console.WriteLine($"  Class {box.Class} {(box.Confidence * 100.0):f1}% X:{box.Bounds.X} Y:{box.Bounds.Y} Width:{box.Bounds.Width} Height:{box.Bounds.Height}");
                   }
+                  Console.WriteLine($" Items:{predictions.Boxes.Length}");
                   Console.WriteLine();
 
                   Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");

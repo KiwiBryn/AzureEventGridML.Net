@@ -400,3 +400,8 @@ FodyWeavers.xsd
 /ffmpeg.exe
 /src/Azure.EventGrid.Image.YoloV8.Pose/Model/yolov8s-pose.onnx
 /src/Azure.EventGrid.Image.YoloV8.Detect/Model/yolov8s.onnx
+/src/YoloV8.Detect.dem-compunet.Image/Model/TennisBallsHuge.onnx
+/src/YoloV8.Detect.NickSwardh.Image/Model/TennisBallsHuge.onnx
+/src/YoloV8.Detect.sstainba.Image/Model/TennisBallsHuge.onnx
+/src/YoloV8.Detect.dem-compunet.Image/Model/TennisBallsYoloV820240412.onnx
+/src/YoloV8.Detect.dem-compunet.Image/Model/TennisBallsCoco20240411.onnx
