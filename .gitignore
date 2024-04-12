@@ -405,3 +405,7 @@ FodyWeavers.xsd
 /src/YoloV8.Detect.sstainba.Image/Model/TennisBallsHuge.onnx
 /src/YoloV8.Detect.dem-compunet.Image/Model/TennisBallsYoloV820240412.onnx
 /src/YoloV8.Detect.dem-compunet.Image/Model/TennisBallsCoco20240411.onnx
+/src/YoloV8.Detect.NickSwardh.Image/Model/TennisBallsCoco20240411.onnx
+/src/YoloV8.Detect.NickSwardh.Image/Model/TennisBallsYoloV820240412.onnx
+/src/YoloV8.Detect.sstainba.Image/Model/TennisBallsCoco20240411.onnx
+/src/YoloV8.Detect.sstainba.Image/Model/TennisBallsYoloV820240412.onnx
