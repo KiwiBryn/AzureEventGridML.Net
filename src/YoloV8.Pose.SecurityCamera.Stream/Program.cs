@@ -102,9 +102,11 @@ namespace devMobile.IoT.YoloV8.Pose.SecurityCamera.Stream
             {
                Console.WriteLine($" Class {box.Class} {(box.Confidence * 100.0):f1}% X:{box.Bounds.X} Y:{box.Bounds.Y} Width:{box.Bounds.Width} Height:{box.Bounds.Height}");
 
-               foreach (var Keypoint in box.Keypoints)
+               foreach (var keypoint in box.Keypoints)
                {
-                  Console.WriteLine($" Index {Keypoint.Index} {(Keypoint.Confidence * 100.0):f1}% X:{Keypoint.Point.X} Y:{Keypoint.Point.Y}");
+                  Model.PoseMarker poseMarker = (Model.PoseMarker)keypoint.Index;
+
+                  Console.WriteLine($" Class:{Enum.GetName(poseMarker)} {(keypoint.Confidence * 100.0):f1}% X:{keypoint.Point.X} Y:{keypoint.Point.Y}");
                }
             }
 

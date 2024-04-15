@@ -28,4 +28,25 @@ namespace devMobile.IoT.YoloV8.Pose.SecurityCamera.Stream.Model
 
       public string ImageOutputPath { get; set; }
    }
+
+   public enum PoseMarker
+   {
+      Nose,
+      LeftEye,
+      RightEye,
+      LeftEar,
+      RightEar,
+      LeftShoulder,
+      RightShoulder,
+      LeftElbow,
+      RightElbow,
+      LeftWrist,
+      RightWrist,
+      LeftHip,
+      RightHip,
+      LeftKnee,
+      RightKnee,
+      LeftAnkle,
+      RightAnkle
+   }
 }
