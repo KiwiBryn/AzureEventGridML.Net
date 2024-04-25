@@ -408,3 +408,5 @@ FodyWeavers.xsd
 /src/YoloV8.Detect.sstainba.Image/Model/TennisBallsCoco20240411.onnx
 /src/YoloV8.Detect.sstainba.Image/Model/TennisBallsYoloV820240412.onnx
 /src/Azure.EventGrid.Image.YoloV8.Pose/BreakingBad105.pfx
+/src/ML.NetObjectDetection/AzureObjectDetection.mlnet
+/src/ML.NetObjectDetection/AzureObjectDetection.onnx
