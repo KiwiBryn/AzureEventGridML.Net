@@ -35,7 +35,6 @@ namespace devMobile.IoT.YoloV8.Detect.dem_compunet.Image
             // load the app settings into configuration
             var configuration = new ConfigurationBuilder()
                  .AddJsonFile("appsettings.json", false, true)
-                 .AddUserSecrets<Program>()
             .Build();
 
             _applicationSettings = configuration.GetSection("ApplicationSettings").Get<Model.ApplicationSettings>();
