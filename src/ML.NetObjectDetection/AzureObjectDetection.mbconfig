@@ -1,0 +1,72 @@
+﻿{
+  "Scenario": "ObjectDetection",
+  "DataSource": {
+    "Version": 0,
+    "Type": "Coco",
+    "FilePath": "C:\\temp\\Tennis Ball.v2i.coco\\train\\_annotations.coco.json"
+  },
+  "Environment": {
+    "Type": "Azure",
+    "Version": 1,
+    "SubscriptionID": "3435ed8e-5ac4-4dca-90b6-276fa66a6114",
+    "ResourceGroupName": "SmartEdgeMLNet",
+    "WorkspaceName": "SmartEdgeMLNet",
+    "ComputeName": "SmartEdgeMLNetCompute",
+    "Location": "australiaeast",
+    "ExperimentName": "SmartEdgeMLNetObjectDetectionPoC"
+  },
+  "RunHistory": {
+    "Version": 3,
+    "Type": "Result",
+    "Trials": [
+      {
+        "Version": 1,
+        "Type": "Trial",
+        "TrainerName": "fasterrcnn-resnet50-fpn",
+        "Score": 0.67,
+        "RuntimeInSeconds": 62860.0055467,
+        "Parameter": {
+          "_SCHEMA_": "e0 * e1 * e2",
+          "e0": {
+            "OutputColumnName": "input1",
+            "InputColumnName": "input1",
+            "ImageHeight": 600,
+            "ImageWidth": 800,
+            "CropAnchor": "Center",
+            "Resizing": "Fill"
+          },
+          "e1": {
+            "OutputColumnName": "input1",
+            "InputColumnName": "input1",
+            "ColorsToExtract": "Rgb",
+            "OrderOfExtraction": "ARGB",
+            "OutputAsFloatArray": true
+          },
+          "e2": {
+            "ModelFile": "C:\\Users\\BrynLewis\\source\\repos\\AzureEventGridML.Net\\src\\ML.NetObjectDetection\\AzureObjectDetection.onnx",
+            "FallbackToCpu": true
+          }
+        }
+      }
+    ],
+    "Estimators": {
+      "e0": "ResizeImages",
+      "e1": "ExtractPixels",
+      "e2": "ApplyOnnxModel"
+    },
+    "Schema": "e0 * e1 * e2",
+    "MetricName": "mean_average_precision",
+    "ModelFilePath": "C:\\Users\\BrynLewis\\source\\repos\\AzureEventGridML.Net\\src\\ML.NetObjectDetection\\AzureObjectDetection.mlnet"
+  },
+  "Type": "TrainingConfig",
+  "Version": 5,
+  "TrainingOption": {
+    "Version": 0,
+    "Type": "AzureObjectDetectionTrainingOption",
+    "ValidationOption": {
+      "Version": 0,
+      "Type": "TrainValidateSplitValidationOption",
+      "SplitRatio": 0.2
+    }
+  }
+}
