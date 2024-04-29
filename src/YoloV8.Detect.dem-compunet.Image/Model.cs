@@ -20,5 +20,9 @@ namespace devMobile.IoT.YoloV8.Detect.dem_compunet.Image.Model
 		public string ImageOutputPath { get; set; }
 
 		public string ModelPath { get; set; }
-	}
+
+		public double Epsilon { get; set; }
+
+      public int MinimumPointsPerCluster { get; set; }
+   }
 }
