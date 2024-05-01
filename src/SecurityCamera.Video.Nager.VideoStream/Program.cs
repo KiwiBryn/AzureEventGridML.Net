@@ -89,7 +89,7 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
 
       private static void NewImageReceived(byte[] imageData)
       {
-         Console.WriteLine($"New image received, bytes:{imageData.Length}");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} New image received, bytes:{imageData.Length}");
 
          File.WriteAllBytes($"{_applicationSettings.ImageFilepathLocal}\\{DateTime.Now.Ticks}.png", imageData);
       }
