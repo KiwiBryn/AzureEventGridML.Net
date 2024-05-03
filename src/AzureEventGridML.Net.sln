@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ML.NetObjectDetection", "ML
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ML.Net", "ML.Net", "{204F0DD7-374B-48A3-9A04-68EDD77843BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityCamera.Video.SharpRTSP.VideoStream", "SecurityCamera.Video.SharpRTSP.VideoStream\SecurityCamera.Video.SharpRTSP.VideoStream.csproj", "{7FD5A138-C620-4DA7-A38B-E9EFC0A0A574}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,10 @@ Global
 		{4037CA4A-77B4-4884-BEE2-49B523814B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4037CA4A-77B4-4884-BEE2-49B523814B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4037CA4A-77B4-4884-BEE2-49B523814B32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FD5A138-C620-4DA7-A38B-E9EFC0A0A574}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FD5A138-C620-4DA7-A38B-E9EFC0A0A574}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FD5A138-C620-4DA7-A38B-E9EFC0A0A574}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FD5A138-C620-4DA7-A38B-E9EFC0A0A574}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +188,7 @@ Global
 		{5E5288C5-16C8-40CE-8438-C754EDC06F67} = {8BA81035-3024-41B4-8A62-924A6DAD48F4}
 		{3A3F6CB9-3A7B-4ECB-8D80-8FACA4A201DF} = {204F0DD7-374B-48A3-9A04-68EDD77843BA}
 		{4037CA4A-77B4-4884-BEE2-49B523814B32} = {204F0DD7-374B-48A3-9A04-68EDD77843BA}
+		{7FD5A138-C620-4DA7-A38B-E9EFC0A0A574} = {85984979-490A-4A8D-B18B-22C7F2AA1300}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9EEAA5AC-6C6F-48C6-8FCE-AC7E5D693536}
