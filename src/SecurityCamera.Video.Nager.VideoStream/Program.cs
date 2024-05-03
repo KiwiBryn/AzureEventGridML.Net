@@ -19,7 +19,7 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
 
       static async Task Main(string[] args)
       {
-         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} SecurityCameraImage starting");
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} SecurityCamera.Video.Nager.VideoStream starting");
 
          try
          {
