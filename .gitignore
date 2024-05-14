@@ -416,3 +416,6 @@ FodyWeavers.xsd
 /src/FasterrCNNResnet50.Detect.ImageWebAPI/AzureObjectDetection.onnx
 /src/FasterrCNNResnet50.Detect.Image/ImageInput.jpg
 /src/Azure.EventGrid.Image.YoloV8.Detect/Model/TennisBallsYoloV820240412.onnx
+/src/YoloV8.Pose.Image/MilkerWorking.jpg
+/src/YoloV8.Pose.Image/MilkerWorkingPose.jpg
+/src/YoloV8.Pose.Image/Model/yolov8s-pose.onnx
