@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ML.NetObjectDetection", "ML
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ML.Net", "ML.Net", "{204F0DD7-374B-48A3-9A04-68EDD77843BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityCamera.Video.SharpRTSP.VideoStream", "SecurityCamera.Video.SharpRTSP.VideoStream\SecurityCamera.Video.SharpRTSP.VideoStream.csproj", "{7FD5A138-C620-4DA7-A38B-E9EFC0A0A574}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoloV8.Pose.Image", "YoloV8.Pose.Image\YoloV8.Pose.Image.csproj", "{C8E744CE-62F6-4206-BD7A-BABBD2BC862A}"
 EndProject
 Global
