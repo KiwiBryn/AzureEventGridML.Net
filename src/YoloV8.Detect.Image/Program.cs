@@ -41,8 +41,25 @@ namespace devMobile.IoT.YoloV8.Detect.Image
 
             Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load: {_applicationSettings.ModelPath}");
 
+            YoloV8Builder builder = new YoloV8Builder();
+
+            builder.UseOnnxModel(_applicationSettings.ModelPath);
+
+            /*
+            builder.WithConfiguration(c =>
+            {
+            });
+            */
+
+            /*
+            builder.WithSessionOptions(new Microsoft.ML.OnnxRuntime.SessionOptions()
+            {
+
+            });
+            */
+
             using (var image = await SixLabors.ImageSharp.Image.LoadAsync<Rgba32>(_applicationSettings.ImageInputPath))
-            using (var predictor = YoloV8Predictor.Create(_applicationSettings.ModelPath))
+            using (var predictor = builder.Build())
             {
                var result = await predictor.DetectAsync(image);
 
@@ -67,7 +84,7 @@ namespace devMobile.IoT.YoloV8.Detect.Image
          }
          catch (Exception ex)
          {
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} Application failure {ex.Message}", ex);
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} Application failure {ex}");
          }
 
          Console.WriteLine("Press enter to exit");
