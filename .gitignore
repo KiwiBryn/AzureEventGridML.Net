@@ -419,3 +419,6 @@ FodyWeavers.xsd
 /src/YoloV8.Pose.Image/MilkerWorking.jpg
 /src/YoloV8.Pose.Image/MilkerWorkingPose.jpg
 /src/YoloV8.Pose.Image/Model/yolov8s-pose.onnx
+/src/YoloV8.Detect.Image/Model/yolov8s.onnx
+/src/YoloV8.Detect.Image/ImageInput.jpg
+/src/YoloV8.Detect.Image/ImageOuput.jpg
