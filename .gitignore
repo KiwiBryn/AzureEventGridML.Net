@@ -422,3 +422,6 @@ FodyWeavers.xsd
 /src/YoloV8.Detect.Image/Model/yolov8s.onnx
 /src/YoloV8.Detect.Image/ImageInput.jpg
 /src/YoloV8.Detect.Image/ImageOuput.jpg
+/src/YoloV8.Coprocessor.Detect.Image/ImageInput.jpg
+/src/YoloV8.Coprocessor.Detect.Image/ImageOuput.jpg
+/src/YoloV8.Coprocessor.Detect.Image/Model/yolov8s.onnx
