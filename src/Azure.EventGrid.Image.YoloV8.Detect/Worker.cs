@@ -104,11 +104,11 @@ namespace devMobile.IoT.Azure.EventGrid.Image.YoloV8.Detect
                result = await _predictor.DetectAsync(cameraStream);
             }
 
-            _logger.LogDebug("Speed Preprocess:{Preprocess} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Postprocess);
+            _logger.LogDebug("Speed Preprocess:{Preprocess} Inference:{Inference} Postprocess:{Postprocess}", result.Speed.Preprocess, result.Speed.Inference, result.Speed.Postprocess);
 
             if (_logger.IsEnabled(LogLevel.Debug))
             {
-               _logger.LogDebug("Detection results");
+               _logger.LogDebug("Detection results:{Length}", result.Boxes.Length);
 
                foreach (var box in result.Boxes)
                {
