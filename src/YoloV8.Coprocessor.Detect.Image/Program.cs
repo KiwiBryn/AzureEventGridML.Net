@@ -74,22 +74,46 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
                var result = await predictor.DetectAsync(image);
 
                Console.WriteLine();
-               Console.WriteLine($"Speed: {result.Speed}");
+               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Warmup Inference: {result.Speed.Inference.TotalMilliseconds}mSec");
                Console.WriteLine();
 
-               foreach (var prediction in result.Boxes)
+               TimeSpan duration = new TimeSpan();
+
+               for (var i = 0; i < _applicationSettings.Iterations; i++)
                {
-                  Console.WriteLine($" Class {prediction.Class} {(prediction.Confidence * 100.0):f1}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
+                  result = await predictor.DetectAsync(image);
+
+                  duration += result.Speed.Inference;
+
+                  if (_applicationSettings.Diagnostics)
+                  {
+                     Console.WriteLine($"Boxes:{result.Boxes.Length}");
+
+                     foreach (var prediction in result.Boxes)
+                     {
+                        Console.WriteLine($" Class {prediction.Class} {(prediction.Confidence * 100.0):f1}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
+                     }
+
+                     Console.WriteLine();
+                  }
+                  else
+                  {
+                     Console.Write(".");
+                  }
+
+                  if (_applicationSettings.Diagnostics)
+                  {
+                     Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
+
+                     using (var imageOutput = await result.PlotImageAsync(image))
+                     {
+                        await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
+                     }
+                  }
                }
 
                Console.WriteLine();
-
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
-
-               using (var imageOutput = await result.PlotImageAsync(image))
-               {
-                  await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
-               }
+               Console.WriteLine($"Inference duration Average:{duration.TotalMilliseconds / _applicationSettings.Iterations:f0}mSec Iterations:{_applicationSettings.Iterations}");
             }
          }
          catch (Exception ex)

@@ -21,9 +21,19 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image.Model
 
       public string ImageOutputPath { get; set; }
 
+      public int Iterations { get; set; }
+
+      public bool Diagnostics { get; set; }
+
       public bool UseCuda {  get ; set; }
 
       public bool UseTensorrt { get; set; }
+
+      public bool UseRocm { get; set; }
+
+      public bool UseTvm { get; set; }
+
+      public string TvmSettings { get; set; }
 
       public int DeviceId { get; set; }
    }
