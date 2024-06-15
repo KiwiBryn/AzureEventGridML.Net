@@ -47,73 +47,94 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
             if (_applicationSettings.UseCuda)
             {
+               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Using CUDA");
+
                builder.UseCuda(_applicationSettings.DeviceId) ;
             }
 
             if (_applicationSettings.UseTensorrt)
             {
+               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Using TensorRT");
+
                builder.UseTensorrt(_applicationSettings.DeviceId);
             }
 
-            /*
+            /*            
             builder.WithConfiguration(c =>
             {
+               c.Confidence = 0.0f;
+               c.IoU = 0.0f;
+               c.KeepOriginalAspectRatio = false;
+               c.SuppressParallelInference = false ;
             });
             */
-
+            
             /*
             builder.WithSessionOptions(new Microsoft.ML.OnnxRuntime.SessionOptions()
             {
-
+               EnableCpuMemArena
+               EnableMemoryPattern
+               EnableProfiling = true,
+               ExecutionMode = ExecutionMode.
+               GraphOptimizationLevel = GraphOptimizationLevel.
+               InterOpNumThreads = 1,
+               ProfileOutputPathPrefix = ""
+               OptimizedModelFilePath = ""                
             });
             */
 
             using (var image = await SixLabors.ImageSharp.Image.LoadAsync<Rgba32>(_applicationSettings.ImageInputPath))
-            using (var predictor = builder.Build())
             {
-               var result = await predictor.DetectAsync(image);
+               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Build start");
 
-               Console.WriteLine();
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Warmup Inference: {result.Speed.Inference.TotalMilliseconds}mSec");
-               Console.WriteLine();
-
-               TimeSpan duration = new TimeSpan();
-
-               for (var i = 0; i < _applicationSettings.Iterations; i++)
+               using (var predictor = builder.Build())
                {
-                  result = await predictor.DetectAsync(image);
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Build done");
 
-                  duration += result.Speed.Inference;
+                  var result = await predictor.DetectAsync(image);
 
-                  if (_applicationSettings.Diagnostics)
+                  Console.WriteLine();
+                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Warmup Inference: {result.Speed.Inference.TotalMilliseconds:F0}mSec");
+                  Console.WriteLine();
+
+                  TimeSpan duration = new TimeSpan();
+
+                  for (var i = 0; i < _applicationSettings.Iterations; i++)
                   {
-                     Console.WriteLine($"Boxes:{result.Boxes.Length}");
+                     result = await predictor.DetectAsync(image);
 
-                     foreach (var prediction in result.Boxes)
+                     duration += result.Speed.Inference;
+
+                     if (_applicationSettings.Diagnostics)
                      {
-                        Console.WriteLine($" Class {prediction.Class} {(prediction.Confidence * 100.0):f1}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
+                        Console.WriteLine($"Boxes:{result.Boxes.Length}");
+
+                        foreach (var prediction in result.Boxes)
+                        {
+                           Console.WriteLine($" Class {prediction.Class} {(prediction.Confidence * 100.0):F0}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
+                        }
+
+                        Console.WriteLine();
+                     }
+                     else
+                     {
+                        Console.Write(".");
                      }
 
-                     Console.WriteLine();
-                  }
-                  else
-                  {
-                     Console.Write(".");
-                  }
-
-                  if (_applicationSettings.Diagnostics)
-                  {
-                     Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
-
-                     using (var imageOutput = await result.PlotImageAsync(image))
+                     if (_applicationSettings.Diagnostics)
                      {
-                        await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
+                        Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
+
+                        using (var imageOutput = await result.PlotImageAsync(image))
+                        {
+                           await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
+                        }
                      }
                   }
+
+                  Console.WriteLine();
+                  Console.WriteLine($"Inference duration Average:{duration.TotalMilliseconds / _applicationSettings.Iterations:f0}mSec Iterations:{_applicationSettings.Iterations}");
                }
-
-               Console.WriteLine();
-               Console.WriteLine($"Inference duration Average:{duration.TotalMilliseconds / _applicationSettings.Iterations:f0}mSec Iterations:{_applicationSettings.Iterations}");
             }
          }
          catch (Exception ex)
