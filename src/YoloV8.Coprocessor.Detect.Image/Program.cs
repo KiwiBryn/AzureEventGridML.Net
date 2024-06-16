@@ -16,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Compunet.YoloV8;
 using Compunet.YoloV8.Plotting;
 
+using Microsoft.ML.OnnxRuntime;
+
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -56,7 +58,24 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
             {
                Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Using TensorRT");
 
-               builder.UseTensorrt(_applicationSettings.DeviceId);
+               OrtTensorRTProviderOptions tensorRToptions = new OrtTensorRTProviderOptions();
+
+               string options = tensorRToptions.GetOptions();
+
+               options = options.Replace(";", Environment.NewLine + " ");
+
+               Console.WriteLine($"Tensor RT Options:");
+               Console.WriteLine(options);
+
+               Dictionary<string, string> optionKeyValuePairs = new()
+               {
+                  { "trt_engine_cache_enable", "1" },
+                  { "trt_engine_cache_path", "/home/bryn/YoloV8Coprocessor/enginecache/" }
+               };
+
+               tensorRToptions.UpdateOptions(optionKeyValuePairs);
+
+               builder.UseTensorrt(tensorRToptions);
             }
 
             /*            
