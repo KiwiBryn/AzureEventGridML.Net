@@ -20,6 +20,7 @@ using Microsoft.ML.OnnxRuntime;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 
 namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
@@ -41,7 +42,7 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
             _applicationSettings = configuration.GetSection("ApplicationSettings").Get<Model.ApplicationSettings>();
 
-            Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load: {_applicationSettings.ModelPath}");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load: {_applicationSettings.ModelPath}");
 
             YoloV8Builder builder = new YoloV8Builder();
 
@@ -49,33 +50,82 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
             if (_applicationSettings.UseCuda)
             {
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Using CUDA");
+               Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Using CUDA");
 
-               builder.UseCuda(_applicationSettings.DeviceId) ;
+               using (OrtCUDAProviderOptions cudaProviderOptions = new())
+               {
+                  Dictionary<string, string> optionKeyValuePairs = new()
+                  {
+                     //{ "gpu_mem_limit", ""},
+                     //{ "arena_extend_strategy", "0: },
+                     //{ "cudnn_conv_algo_search", "0"},
+                     //{ "do_copy_in_default_stream", "1"},
+                     //{ "cudnn_conv_use_max_workspace", "0"},
+                     //{ "cudnn_conv1d_pad_to_nc1d" , "0"},
+                     //{ "enable_cuda_graph", "0"},
+                     { "device_id" , _applicationSettings.DeviceId.ToString()},
+                  };
+
+                  cudaProviderOptions.UpdateOptions(optionKeyValuePairs);
+
+                  string options = cudaProviderOptions.GetOptions();
+
+                  options = options.Replace(";", Environment.NewLine);
+
+                  Console.WriteLine($"CUDA Options:");
+                  Console.WriteLine(options);
+
+                  builder.UseCuda(cudaProviderOptions);
+               }
             }
 
             if (_applicationSettings.UseTensorrt)
             {
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Using TensorRT");
+               Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Using TensorRT");
 
-               OrtTensorRTProviderOptions tensorRToptions = new OrtTensorRTProviderOptions();
-
-               string options = tensorRToptions.GetOptions();
-
-               options = options.Replace(";", Environment.NewLine + " ");
-
-               Console.WriteLine($"Tensor RT Options:");
-               Console.WriteLine(options);
-
-               Dictionary<string, string> optionKeyValuePairs = new()
+               using (OrtTensorRTProviderOptions tensorRToptions = new())
                {
-                  { "trt_engine_cache_enable", "1" },
-                  { "trt_engine_cache_path", "/home/bryn/YoloV8Coprocessor/enginecache/" }
-               };
+                  Dictionary<string, string> optionKeyValuePairs = new()
+                  {
+                     //{ "trt_max_workspace_size", "2147483648" },
+                     //{ "trt_max_partition_iterations", "1000" },
+                     //{ "trt_min_subgraph_size", "1" },
 
-               tensorRToptions.UpdateOptions(optionKeyValuePairs);
+                     //{ "trt_fp16_enable", "1" },
+                     //{ "trt_int8_enable", "0" },
 
-               builder.UseTensorrt(tensorRToptions);
+                     //{ "trt_int8_calibration_table_name", "" },
+                     //{ "trt_int8_use_native_calibration_table", "0" },
+
+                     //{ "trt_dla_enable", "1" },
+                     //{ "trt_dla_core", "0" },
+
+                     //{ "trt_timing_cache_enable", "1" },
+                     //{ "trt_timing_cache_path", "timingcache/" },
+
+                     { "trt_engine_cache_enable", "1" },
+                     { "trt_engine_cache_path", "enginecache/" },
+
+                     //{ "trt_dump_ep_context_model", "1" },
+                     //{ "trt_ep_context_file_path", "embedengine/" },
+
+                     //{ "trt_dump_subgraphs", "0" },
+                     //{ "trt_force_sequential_engine_build", "0" },
+
+                     { "device_id" , _applicationSettings.DeviceId.ToString()},
+                  };
+
+                  tensorRToptions.UpdateOptions(optionKeyValuePairs);
+
+                  string options = tensorRToptions.GetOptions();
+
+                  options = options.Replace(";", Environment.NewLine);
+
+                  Console.WriteLine($"Tensor RT Options:");
+                  Console.WriteLine(options);
+
+                  builder.UseTensorrt(tensorRToptions);
+               }
             }
 
             /*            
@@ -87,7 +137,7 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
                c.SuppressParallelInference = false ;
             });
             */
-            
+
             /*
             builder.WithSessionOptions(new Microsoft.ML.OnnxRuntime.SessionOptions()
             {
@@ -104,25 +154,29 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
             using (var image = await SixLabors.ImageSharp.Image.LoadAsync<Rgba32>(_applicationSettings.ImageInputPath))
             {
-               Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Build start");
+               Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Build start");
 
                using (var predictor = builder.Build())
                {
-                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Build done");
+                  Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Build done");
+
+                  image.Mutate(x => x.Resize( _applicationSettings.InputImageResizeWidth, _applicationSettings.InputImageResizeHeight));
 
                   var result = await predictor.DetectAsync(image);
 
-                  Console.WriteLine();
-                  Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Warmup Inference: {result.Speed.Inference.TotalMilliseconds:F0}mSec");
-                  Console.WriteLine();
+                  Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Warmup Inference: {result.Speed.Inference.TotalMilliseconds:F0}mSec");
 
-                  TimeSpan duration = new TimeSpan();
+                  TimeSpan prepossingDuration = new ();
+                  TimeSpan inferencingDuration = new();
+                  TimeSpan postProcessingDuration = new();
 
                   for (var i = 0; i < _applicationSettings.Iterations; i++)
                   {
                      result = await predictor.DetectAsync(image);
 
-                     duration += result.Speed.Inference;
+                     prepossingDuration += result.Speed.Preprocess;
+                     inferencingDuration += result.Speed.Inference;
+                     postProcessingDuration += result.Speed.Postprocess;
 
                      if (_applicationSettings.Diagnostics)
                      {
@@ -130,7 +184,7 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
                         foreach (var prediction in result.Boxes)
                         {
-                           Console.WriteLine($" Class {prediction.Class} {(prediction.Confidence * 100.0):F0}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
+                           Console.WriteLine($"Class {prediction.Class} {(prediction.Confidence * 100.0):F0}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
                         }
 
                         Console.WriteLine();
@@ -139,20 +193,21 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
                      {
                         Console.Write(".");
                      }
+                  }
+                  Console.WriteLine();
 
-                     if (_applicationSettings.Diagnostics)
-                     {
-                        Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
+                  Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Plot and save : {_applicationSettings.ImageOutputPath}");
 
-                        using (var imageOutput = await result.PlotImageAsync(image))
-                        {
-                           await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
-                        }
-                     }
+                  using (var imageOutput = await result.PlotImageAsync(image))
+                  {
+                     await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
                   }
 
                   Console.WriteLine();
-                  Console.WriteLine($"Inference duration Average:{duration.TotalMilliseconds / _applicationSettings.Iterations:f0}mSec Iterations:{_applicationSettings.Iterations}");
+                  Console.WriteLine($"Total duration Average:{(prepossingDuration + inferencingDuration + postProcessingDuration).TotalMilliseconds / _applicationSettings.Iterations:f0}mSec Iterations:{_applicationSettings.Iterations}");
+                  Console.WriteLine($"Pre-processing duration Average:{prepossingDuration.TotalMilliseconds / _applicationSettings.Iterations:f0}mSec");
+                  Console.WriteLine($"Inferencing duration Average:{inferencingDuration.TotalMilliseconds / _applicationSettings.Iterations:f0}mSec");
+                  Console.WriteLine($"Post-processing duration Average:{postProcessingDuration.TotalMilliseconds / _applicationSettings.Iterations:f0}mSec");
                }
             }
          }

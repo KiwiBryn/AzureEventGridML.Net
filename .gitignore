@@ -426,3 +426,13 @@ FodyWeavers.xsd
 /src/YoloV8.Coprocessor.Detect.Image/ImageOuput.jpg
 /src/YoloV8.Coprocessor.Detect.Image/Model/yolov8s.onnx
 /src/YoloV8.Coprocessor.Detect.Image/Model/TennisBallsYoloV820240412.onnx
+/src/YoloV8.Coprocessor.Detect.Image/ChickenImages/ChickensFeederCluster.jpeg
+/src/YoloV8.Coprocessor.Detect.Image/ChickenImages/ChickensNoClustering.jpeg
+/src/YoloV8.Coprocessor.Detect.Image/ChickenImages/ChickensSomeClusters.jpg
+/src/YoloV8.Coprocessor.Detect.Image/ChickenImages/ChickensWaterBowl.jpeg
+/src/YoloV8.Coprocessor.Detect.Image/ProcessedImages/Jetson202406231340.jpg
+/src/YoloV8.Coprocessor.Detect.Image/ProcessedImages/TennisBallsYoloV8s20240618.jpg
+/src/YoloV8.Coprocessor.Detect.Image/ProcessedImages/TennisBallsYoloV8sFP1620240618.jpg
+/src/YoloV8.Coprocessor.Detect.Image/ProcessedImages/TennisBallsYoloV8x20240618.jpg
+/src/YoloV8.Coprocessor.Detect.Image/ProcessedImages/TennisBallsYoloV8xFP1620240618.jpg
+/src/YoloV8.Coprocessor.Detect.Image/Model/TennisBallsYoloV820240412.trt

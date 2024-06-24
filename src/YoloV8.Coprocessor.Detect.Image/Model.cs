@@ -36,5 +36,9 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image.Model
       public string TvmSettings { get; set; }
 
       public int DeviceId { get; set; }
+
+      public int InputImageResizeWidth { get; set; }
+
+      public int InputImageResizeHeight { get; set; }
    }
 }
