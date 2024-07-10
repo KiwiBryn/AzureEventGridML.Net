@@ -72,8 +72,11 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
                   options = options.Replace(";", Environment.NewLine);
 
-                  Console.WriteLine($"CUDA Options:");
-                  Console.WriteLine(options);
+                  if (_applicationSettings.Diagnostics)
+                  {
+                     Console.WriteLine($"CUDA Options:");
+                     Console.WriteLine(options);
+                  }
 
                   builder.UseCuda(cudaProviderOptions);
                }
@@ -87,7 +90,7 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
                {
                   Dictionary<string, string> optionKeyValuePairs = new()
                   {
-                     //{ "trt_max_workspace_size", "2147483648" },
+                     //{ "trt_max_workspace_size", "2147483648" },                    
                      //{ "trt_max_partition_iterations", "1000" },
                      //{ "trt_min_subgraph_size", "1" },
 
@@ -121,8 +124,11 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
                   options = options.Replace(";", Environment.NewLine);
 
-                  Console.WriteLine($"Tensor RT Options:");
-                  Console.WriteLine(options);
+                  if (_applicationSettings.Diagnostics)
+                  {
+                     Console.WriteLine($"Tensor RT Options:");
+                     Console.WriteLine(options);
+                  }
 
                   builder.UseTensorrt(tensorRToptions);
                }
@@ -160,11 +166,39 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
                {
                   Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Build done");
 
-                  image.Mutate(x => x.Resize( _applicationSettings.InputImageResizeWidth, _applicationSettings.InputImageResizeHeight));
+                  Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 model Width:{predictor.Metadata.ImageSize.Width} Height:{predictor.Metadata.ImageSize.Height}");
+
+                  Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Input image Width:{image.Width} Height:{image.Height} File:{_applicationSettings.ImageInputPath}");
+
+                  if (_applicationSettings.InputImageResize)
+                  {
+                     Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Scale image Width:{_applicationSettings.InputImageResizeWidth} Height:{_applicationSettings.InputImageResizeHeight} Mode:{ Enum.GetName(_applicationSettings.InputImageResizeMode)}");
+
+                     image.Mutate(x => x.Resize(new ResizeOptions()
+                     {
+                        Mode = _applicationSettings.InputImageResizeMode,
+                        Size = new Size()
+                        {
+                           Height = _applicationSettings.InputImageResizeHeight,
+                           Width = _applicationSettings.InputImageResizeWidth,
+                        }
+                     }));
+
+                     Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Scaled image Width:{image.Width} Height:{image.Height}");
+                  }
+
+                  Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Pre-processed image Width:{image.Width} Height:{image.Height}");
+
+                  await image.SaveAsJpegAsync(_applicationSettings.ImageProprocessedPath);
 
                   var result = await predictor.DetectAsync(image);
 
-                  Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Warmup Inference: {result.Speed.Inference.TotalMilliseconds:F0}mSec");
+                  for (var i = 1; i <= _applicationSettings.IterationsWarmUp; i++)
+                  {
+                     result = await predictor.DetectAsync(image);
+
+                     Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Warmup {i} Pre-process: {result.Speed.Preprocess.TotalMilliseconds:F0}mSec Inference: {result.Speed.Inference.TotalMilliseconds:F0}mSec Post-process: {result.Speed.Postprocess.TotalMilliseconds:F0}mSec");
+                  }
 
                   TimeSpan prepossingDuration = new ();
                   TimeSpan inferencingDuration = new();
@@ -200,6 +234,8 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
                   using (var imageOutput = await result.PlotImageAsync(image))
                   {
+                     Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Output image Width:{imageOutput.Width} Height:{imageOutput.Height}");
+
                      await imageOutput.SaveAsJpegAsync(_applicationSettings.ImageOutputPath);
                   }
 
