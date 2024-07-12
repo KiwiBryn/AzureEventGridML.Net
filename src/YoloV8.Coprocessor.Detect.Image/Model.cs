@@ -11,6 +11,8 @@
 // If not, see <https://www.gnu.org/licenses/>
 //
 //---------------------------------------------------------------------------------
+using SixLabors.ImageSharp.Processing;
+
 namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image.Model
 {
    public class ApplicationSettings
@@ -21,10 +23,32 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image.Model
 
       public string ImageOutputPath { get; set; }
 
+      public string ImageProprocessedPath { get; set; }
+
+      public int IterationsWarmUp { get; set; }
+
+      public int Iterations { get; set; }
+
+      public bool Diagnostics { get; set; }
+
       public bool UseCuda {  get ; set; }
 
       public bool UseTensorrt { get; set; }
 
+      public bool UseRocm { get; set; }
+
+      public bool UseTvm { get; set; }
+
+      public string TvmSettings { get; set; }
+
       public int DeviceId { get; set; }
+
+      public bool InputImageResize { get; set; }
+
+      public ResizeMode InputImageResizeMode { get; set; }
+
+      public int InputImageResizeWidth { get; set; }
+
+      public int InputImageResizeHeight { get; set; }
    }
 }
