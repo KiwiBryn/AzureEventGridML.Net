@@ -55,6 +55,8 @@ namespace devMobile.IoT.YoloV8.Detect.NickSwardh.Image
                   Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done");
                   Console.WriteLine();
 
+                  Console.WriteLine($" Boxes: {predictions.Count}");
+
                   foreach (var predicition in predictions)
                   {
                      Console.WriteLine($"  Class {predicition.Label.Name} {(predicition.Confidence * 100.0):f1}% X:{predicition.BoundingBox.Left} Y:{predicition.BoundingBox.Y} Width:{predicition.BoundingBox.Width} Height:{predicition.BoundingBox.Height}");
