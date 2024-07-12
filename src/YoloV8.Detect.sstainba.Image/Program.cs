@@ -43,7 +43,7 @@ namespace devMobile.IoT.YoloV8.Detect.sstainba.Image
 
             Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load start : {_applicationSettings.ModelPath}");
 
-            using (var predictor = YoloV8Predictor.Create(_applicationSettings.ModelPath))
+            using (var predictor = YoloV8Predictor.Create(_applicationSettings.ModelPath, ["TennisBall"]))
             {
                Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model load done");
                Console.WriteLine();
@@ -57,7 +57,9 @@ namespace devMobile.IoT.YoloV8.Detect.sstainba.Image
                   Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done");
                   Console.WriteLine();
 
-                  foreach (var prediction in predictions)
+                  Console.WriteLine($" Boxes: {predictions.Length}");
+
+                  foreach (var prediction in predictions.OrderByDescending(c=>c.Score))
                   {
                      Console.WriteLine($"  Class {prediction.Label.Name} {(prediction.Score * 100.0):f1}% X:{prediction.Rectangle.X:f0} Y:{prediction.Rectangle.Y:f0} Width:{prediction.Rectangle.Width:f0} Height:{prediction.Rectangle.Height:f0}");
                   }
