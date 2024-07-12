@@ -55,11 +55,11 @@ namespace devMobile.IoT.YoloV8.Detect.dem_compunet.Image
                   Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} YoloV8 Model detect done");
                   Console.WriteLine();
 
-                  Console.WriteLine($" Speed: {predictions.Speed}");
+                  Console.WriteLine($" Speed: {predictions.Speed} Boxes: {predictions.Boxes.Length}");
 
                   foreach (var prediction in predictions.Boxes)
                   {
-                     Console.WriteLine($"  Class {prediction.Class} {(prediction.Confidence * 100.0):f1}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
+                     Console.WriteLine($"  Class:{prediction.Class} {(prediction.Confidence * 100.0):f1}% X:{prediction.Bounds.X} Y:{prediction.Bounds.Y} Width:{prediction.Bounds.Width} Height:{prediction.Bounds.Height}");
                   }
                   Console.WriteLine();
 
