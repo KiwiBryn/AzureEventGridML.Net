@@ -31,20 +31,30 @@ namespace devMobile.FasterrCNNResnet50.Detect.Image
             // Create single instance of sample data from first line of dataset for model input
             var image = MLImage.CreateFromFile(_applicationSettings.ImageInputPath);
 
-            AzureObjectDetection.ModelInput sampleData = new AzureObjectDetection.ModelInput()
+            Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} FasterrCNNResnet50 Model detect start");
+
+            AzureObjectDetection.ModelInput inputData = new AzureObjectDetection.ModelInput()
             {
                ImageSource = image,
             };
 
             // Make a single prediction on the sample data and print results.
-            var predictionResult = AzureObjectDetection.Predict(sampleData);
+            var predictions = AzureObjectDetection.Predict(inputData);
 
-            Console.WriteLine("Predicted Boxes:");
-            Console.WriteLine(predictionResult);
+            Console.WriteLine($" {DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} FasterrCNNResnet50 Model detect done");
+            Console.WriteLine();
+
+            Console.WriteLine($" Boxes: {predictions.BoundingBoxes.Length}");
+
+            foreach (var prediction in predictions.BoundingBoxes)
+            {
+               Console.WriteLine($"  Class:{prediction.Label} {(prediction.Score * 100.0):f1}% X:{prediction.Left:f0} Y:{prediction.Right:f0} Bottom:{prediction.Bottom:f0} Top:{prediction.Top:f0}");
+            }
+            Console.WriteLine();
          }
          catch (Exception ex)
          {
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} MQTTnet.Publish failed {ex.Message}");
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} Application failure {ex.Message}", ex);
          }
 
          Console.WriteLine("Press ENTER to exit");

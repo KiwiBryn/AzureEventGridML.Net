@@ -427,3 +427,4 @@ FodyWeavers.xsd
 /src/YoloV8.Coprocessor.Detect.Image/Model/yolov8s.onnx
 /src/YoloV8.Coprocessor.Detect.Image/Model/TennisBallsYoloV820240412.onnx
 /src/YoloV8.Coprocessor.Detect.Image/Model/TennisBallsYoloV820240412.trt
+/src/FasterrCNNResnet50.Detect.Image/TennisBallsSomeClustering3072x4080.jpg
