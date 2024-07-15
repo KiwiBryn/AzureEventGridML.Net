@@ -48,6 +48,7 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
 
             builder.UseOnnxModel(_applicationSettings.ModelPath);
 
+#if GPURELEASE
             if (_applicationSettings.UseCuda)
             {
                Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Using CUDA");
@@ -133,7 +134,7 @@ namespace devMobile.IoT.YoloV8.Coprocessor.Detect.Image
                   builder.UseTensorrt(tensorRToptions);
                }
             }
-
+#endif
             /*            
             builder.WithConfiguration(c =>
             {
