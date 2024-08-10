@@ -442,3 +442,4 @@ FodyWeavers.xsd
 /src/YoloV8.Coprocessor.Detect.Image/Model/TennisBallsYolov8x20240614640x640.onnx
 /src/YoloV8.Coprocessor.Detect.Image/ImageProcessed.jpg
 /src/YoloV8.Coprocessor.Detect.Image/Model/TennisBallsYoloV82s024062410241024.onnx
+/src/YoloV8.Coprocessor.Detect.Image/Model/TennisBallsYoloV8s20240408Int32.onnx
