@@ -12,6 +12,10 @@
     <DefineConstants>$(DefineConstants);INPUT_SOURCE_RTSP_CAMERA</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);INPUT_SOURCE_RTSP_CAMERA</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
@@ -24,7 +28,7 @@
 
   <ItemGroup>
      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
      <PackageReference Include="Nager.VideoStream" Version="1.2.0" />
