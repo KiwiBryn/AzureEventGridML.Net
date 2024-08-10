@@ -5,6 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>78aa1041-451c-4fee-8dde-22f59355c6e2</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,7 +31,7 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
-      <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+      <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
       <PackageReference Include="System.Text.Json" Version="8.0.4" />
       <PackageReference Include="YoloV8.Gpu" Version="4.1.7" />
    </ItemGroup>   
