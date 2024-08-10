@@ -19,14 +19,14 @@
   </ItemGroup>
 
    <ItemGroup>
-      <PackageReference Include="HiveMQtt" Version="0.22.0" />
+      <PackageReference Include="HiveMQtt" Version="0.22.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-      <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+      <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
       <PackageReference Include="YoloV8" Version="4.1.7" />
    </ItemGroup>
 
