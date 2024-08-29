@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);INPUT_SOURCE_RTSP_CAMERA</DefineConstants>
+    <DefineConstants>$(DefineConstants);INPUT_SOURCE_RTSP_CAMERA;FFMPEG_INFO_DISPLAY</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
