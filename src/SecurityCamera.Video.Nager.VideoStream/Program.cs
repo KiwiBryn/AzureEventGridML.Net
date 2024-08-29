@@ -58,7 +58,7 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
          }
          catch (Exception ex)
          {
-            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} Application shutown failure {ex.Message}", ex);
+            Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss} Application shutdown failure {ex.Message}", ex);
          }
       }
 
