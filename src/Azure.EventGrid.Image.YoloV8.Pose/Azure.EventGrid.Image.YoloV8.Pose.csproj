@@ -27,7 +27,7 @@
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
       <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
-      <PackageReference Include="YoloV8" Version="4.1.7" />
+      <PackageReference Include="YoloV8" Version="4.2.0" />
    </ItemGroup>
 
    <ItemGroup>
