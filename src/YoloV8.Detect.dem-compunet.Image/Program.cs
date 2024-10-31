@@ -86,7 +86,7 @@ namespace devMobile.IoT.YoloV8.Detect.dem_compunet.Image
                      {
                         imageOutput.Mutate(d => d.Draw(Pens.Solid(GetColour(colour), 20), new Rectangle((int)clusterPoint.Point.X, (int)clusterPoint.Point.Y, 20, 20)));
                      }
-                     colour = +1;
+                     colour += 1;
                   }
                   Console.WriteLine();
 
