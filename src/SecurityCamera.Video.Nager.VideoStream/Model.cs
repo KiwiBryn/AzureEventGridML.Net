@@ -15,5 +15,7 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream.Model
       public string WebCameraDeviceName { get; set; }
 
       public string ImageFilepathLocal { get; set; }
-	}
+
+      public string ModelPath { get; set; }
+   }
 }

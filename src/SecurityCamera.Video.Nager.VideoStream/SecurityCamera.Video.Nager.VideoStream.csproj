@@ -32,6 +32,8 @@
      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.1" />
      <PackageReference Include="Nager.VideoStream" Version="1.2.0" />
+     <PackageReference Include="SkiaSharp" Version="3.119.0" />
+     <PackageReference Include="YoloDotNet" Version="2.3.0" />
   </ItemGroup>
 
 </Project>

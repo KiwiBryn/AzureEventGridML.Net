@@ -9,6 +9,11 @@
 using Microsoft.Extensions.Configuration;
 
 using Nager.VideoStream;
+using SkiaSharp;
+using YoloDotNet;
+using YoloDotNet.Enums;
+using YoloDotNet.Extensions;
+using YoloDotNet.Models;
 
 
 namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
@@ -16,6 +21,7 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
    class Program
    {
       private static Model.ApplicationSettings _applicationSettings;
+      private static Yolo? _yolo;
 
       static async Task Main(string[] args)
       {
@@ -46,13 +52,25 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
 
             var cancellationTokenSource = new CancellationTokenSource();
 
-            _ = Task.Run(async () => await StartStreamProcessingAsync(inputSource, cancellationTokenSource.Token));
+            using (_yolo = new Yolo(new YoloOptions()
+            {
+               OnnxModel = _applicationSettings.ModelPath,
+               //Cuda = _applicationSettings.CUDA,
+               //GpuId = _applicationSettings.GPUId,
+               //PrimeGpu = _applicationSettings.PrimeGPU,
+               Cuda = false,
+               ModelType = ModelType.ObjectDetection,
+            }))
+            {
+               File.WriteAllText($"{_applicationSettings.ImageFilepathLocal}\\{DateTime.Now.Ticks}.txt", "Startup");
 
-            Console.WriteLine("Press any key to stop");
-            Console.ReadKey();
+               _ = Task.Run(async () => await StartStreamProcessingAsync(inputSource, cancellationTokenSource.Token));
 
-            cancellationTokenSource.Cancel();
+               Console.WriteLine("Press any key to stop");
+               Console.ReadKey();
 
+               cancellationTokenSource.Cancel();
+            }
             Console.WriteLine("Press ENTER to exit");
             Console.ReadLine();
          }
@@ -70,14 +88,14 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
             var client = new VideoStreamClient();
 
             client.NewImageReceived += NewImageReceived;
+
 #if FFMPEG_INFO_DISPLAY
-            client.FFmpegInfoReceived += FFmpegInfoReceived;
+            //client.FFmpegInfoReceived += FFmpegInfoReceived;
 #endif
             await client.StartFrameReaderAsync(inputSource, OutputImageFormat.Png, cancellationToken: cancellationToken);
 
-            client.NewImageReceived -= NewImageReceived;
 #if FFMPEG_INFO_DISPLAY
-            client.FFmpegInfoReceived -= FFmpegInfoReceived;
+            //client.FFmpegInfoReceived -= FFmpegInfoReceived;
 #endif
             Console.WriteLine("End Stream Processing");
          }
@@ -87,11 +105,34 @@ namespace devMobile.IoT.SecurityCamera.Video.Nager.VideoStream
          }
       }
 
+      public static int depth = 0;
+
       private static void NewImageReceived(byte[] imageData)
       {
-         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} New image received, bytes:{imageData.Length}");
+         //Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} New image received, bytes:{imageData.Length}");
 
-         File.WriteAllBytes($"{_applicationSettings.ImageFilepathLocal}\\{DateTime.Now.Ticks}.png", imageData);
+         var start = DateTime.UtcNow;
+
+         Interlocked.Increment(ref depth);
+         var results = _yolo.RunObjectDetection(SKImage.FromEncodedData(imageData),0.75);
+         Interlocked.Decrement(ref depth);
+
+         Console.WriteLine($"{DateTime.UtcNow:yy-MM-dd HH:mm:ss.fff} Depth:{depth} Duration:{(DateTime.UtcNow - start).TotalMilliseconds}mSec");
+
+         foreach (var result in results)
+         {
+            Console.WriteLine($"Name: {result.Label.Name} Confidence:{result.Confidence} Bounding Box{ result.BoundingBox}");
+            /*
+               using (var markedUpImage = SKImage.FromEncodedData(imageData).Draw(results, new KeyPointOptions()))
+               {
+                  markedUpImage.Save($"{_applicationSettings.ImageFilepathLocal}\\{DateTime.UtcNow.Ticks}.jpg", SKEncodedImageFormat.Jpeg, quality: 20);
+               }
+            }
+            */
+         }
+
+
+         //File.WriteAllBytes($"{_applicationSettings.ImageFilepathLocal}\\{DateTime.Now.Ticks}.png", imageData);
       }
 
 #if FFMPEG_INFO_DISPLAY
