@@ -25,7 +25,7 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.1" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
-      <PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.1" />
+      <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.8" />
    </ItemGroup>
    
 </Project>
